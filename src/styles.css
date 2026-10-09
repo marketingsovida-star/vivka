@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens Vivka (Mini MIV) ---------- */
+@theme {
+  /* Jost 500 Medium para títulos e informações de produto; Jost 400 Book para textos de apoio */
+  --font-sans: "Jost", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Jost", ui-sans-serif, system-ui, sans-serif;
+
+  /* Paleta oficial */
+  --color-vk-azul: #0b1d3a; /* Azul noite profundo — base noturna, Night, texto sobre claro */
+  --color-vk-creme: #fff9ee; /* Creme luminoso — base clara */
+  --color-vk-dourado: #e1b24f; /* Dourado gráfico vivo — assinatura e detalhes sobre azul */
+  --color-vk-amarelo: #ffc43a; /* Amarelo diurno — Control e expressão diurna */
+  --color-vk-vinho: #6c2c45; /* Vinho profundo — contraste institucional */
+
+  /* Derivados (só para superfícies, linhas e estados; fora da paleta oficial) */
+  --color-vk-areia: #f8efdc;
+  --color-vk-linha: #eadfc9;
+  --color-vk-noite: #06122a;
+  --color-vk-tinta: #1a2438;
+  --color-vk-mel: #f3b82a;
+
+  --shadow-card: 0 10px 30px -12px rgba(11, 29, 58, 0.18);
+  --shadow-soft: 0 30px 70px -30px rgba(11, 29, 58, 0.35);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-vk-creme);
+    color: var(--color-vk-tinta);
+    font-family: var(--font-sans);
+    font-feature-settings: "liga", "kern";
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--color-vk-amarelo);
+    color: var(--color-vk-azul);
+  }
+}
+
+/* Caixa alta com tracking largo (rótulos/eyebrows), como nos potes */
+@utility label-caps {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Palavra destacada: azul sobre amarelo (dia) / dourado sobre azul (noite) */
+/* inline-block com line-height 1: a caixa abraça a palavra em vez de ocupar a linha inteira */
+@utility mark-dia {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.02em 0.28em 0.08em;
+  margin-block: -0.1em;
+  background: var(--color-vk-amarelo);
+  color: var(--color-vk-azul);
+  border-radius: 0.4em;
+}
+@utility mark-noite {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.02em 0.28em 0.08em;
+  margin-block: -0.1em;
+  background: var(--color-vk-azul);
+  color: var(--color-vk-dourado);
+  border-radius: 0.4em;
+}
+
+/* ---------- Reveal animations ---------- */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes reveal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes image-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.reveal-up {
+  transform: translateY(16px);
+}
+.reveal.reveal-in {
+  animation: reveal-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.reveal.reveal-fade.reveal-in {
+  animation: reveal-fade 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.reveal[data-delay="1"].reveal-in {
+  animation-delay: 80ms;
+}
+.reveal[data-delay="2"].reveal-in {
+  animation-delay: 160ms;
+}
+.reveal[data-delay="3"].reveal-in {
+  animation-delay: 240ms;
+}
+.reveal[data-delay="4"].reveal-in {
+  animation-delay: 320ms;
+}
+.reveal[data-delay="5"].reveal-in {
+  animation-delay: 400ms;
+}
+.reveal[data-delay="6"].reveal-in {
+  animation-delay: 480ms;
+}
+
+.reveal-image-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.reveal-image {
+  opacity: 0;
+}
+.reveal-image.reveal-in {
+  animation: image-zoom-in 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-image {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .reveal.reveal-in,
+  .reveal-image.reveal-in {
+    animation: none !important;
+  }
+}
