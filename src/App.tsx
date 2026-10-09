@@ -23,7 +23,8 @@ function ScrollManager() {
 
 export function App() {
   return (
-    <BrowserRouter>
+    {/* basename segue a base do Vite ("/vivka/" no GitHub Pages, "/" em domínio próprio) */}
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <ScrollManager />
       <Routes>
         <Route path="/" element={<HomePage />} />
