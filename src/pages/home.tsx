@@ -33,8 +33,8 @@ const FAQS = [
     a: "Control: 5 g (1 dose) diluídos em 200 ml de água, logo após o almoço. Night: 3 g (1 dose) diluídos em 200 ml de água, à noite, 30 minutos antes de deitar.",
   },
   {
-    q: "Quantas doses tem cada frasco?",
-    a: "Os dois vêm em frascos de 150 g. O Control rende 30 doses de 5 g, e o Night rende 50 doses de 3 g.",
+    q: "Quantas doses tem cada pote?",
+    a: "Os dois vêm em potes de 150 g. O Control rende 30 doses de 5 g, e o Night rende 50 doses de 3 g.",
   },
   {
     q: "Qual é o sabor?",
@@ -46,7 +46,7 @@ const FAQS = [
   },
   {
     q: "Como funciona a compra?",
-    a: "Por enquanto, a compra é feita diretamente com a nossa equipe pelo WhatsApp. É só escolher a opção desejada e clicar em Adquirir.",
+    a: "A compra é feita pelo nosso checkout seguro (Payt). É só escolher a opção desejada, clicar em Comprar e finalizar o pagamento. No cartão, você pode parcelar em até 12x.",
   },
   {
     q: "Os produtos substituem acompanhamento médico?",
@@ -218,7 +218,7 @@ function BenefitStrip() {
   const items = [
     { icon: CupSoda, label: "Em pó, diluído na água" },
     { icon: ListChecks, label: "Fórmula declarada" },
-    { icon: Package, label: "150 g por frasco" },
+    { icon: Package, label: "150 g por pote" },
     { icon: SunMoon, label: "Um para cada momento" },
     { icon: Citrus, label: "Cacau e laranja" },
     { icon: ShieldCheck, label: "7 dias de garantia" },
@@ -394,7 +394,7 @@ function DiaENoite() {
             <h2 className="mt-3 text-4xl font-medium text-vk-azul md:text-5xl">Vivka une os dois momentos.</h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-vk-tinta/80 md:text-lg">
               Quando o doce chama, você escolhe. Quando a noite chega, você descansa. Control e Night foram pensados
-              como um par, e juntos têm preços especiais nos kits de 3 e 5.
+              como um par, e juntos saem mais em conta: nos kits de 2 e 4 pares a economia é ainda maior.
             </p>
             <ul className="mt-6 space-y-2">
               {["1 Vivka Control (150 g · 30 doses)", "1 Vivka Night (150 g · 50 doses)", "Da tarde à noite, em um só cuidado"].map((t) => (
@@ -412,7 +412,7 @@ function DiaENoite() {
         <div className="mt-14">
           <PriceCards precos={KIT_PRECOS} produtoNome="Kit Vivka Dia + Noite (Control + Night)" imagePrefix="kit" />
           <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-vk-tinta/55">
-            Valores de referência. A compra é finalizada com nossa equipe pelo WhatsApp.
+            Compra segura pelo checkout da Payt. No cartão, parcele em até 12x.
           </p>
         </div>
       </div>

@@ -68,7 +68,7 @@ export function ProdutoPage({ produto }: { produto: Produto }) {
               <PriceCards precos={produto.precos} produtoNome={`Vivka ${produto.nome}`} imagePrefix={produto.id} accent={produto.id} />
             </div>
             <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-vk-tinta/55">
-              Valores de referência. A compra é finalizada com nossa equipe pelo WhatsApp.
+              Compra segura pelo checkout da Payt. No cartão, parcele em até 12x.
             </p>
             <div className="mt-12">
               <TrustStrip />

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, ShieldCheck, Truck, MessageCircle, Lock } from "lucide-react";
 import { Reveal } from "@/components/reveal";
-import { type Preco, type ProdutoId, asset, whatsappUrl } from "@/data/produtos";
+import { type Preco, type ProdutoId, asset } from "@/data/produtos";
 
 export const NAV = [
   { href: "/#produtos", label: "Produtos" },
@@ -110,7 +110,7 @@ export function ProductTopBar() {
   );
 }
 
-/* ---------- Grade de preços (sem checkout — leva ao WhatsApp) ---------- */
+/* ---------- Grade de preços (cada opção leva ao checkout da Payt) ---------- */
 export function PriceCards({
   precos,
   produtoNome,
@@ -127,7 +127,6 @@ export function PriceCards({
     <div className="grid gap-6 lg:grid-cols-3">
       {precos.map((p, i) => {
         const featured = !!p.destaque;
-        const msg = `Oi Vivka! Quero adquirir ${p.label} de ${produtoNome}.`;
         return (
           <Reveal
             key={p.qtd}
@@ -159,15 +158,16 @@ export function PriceCards({
                 <span className="text-sm text-vk-tinta/60">R$</span>
                 <span className="font-display text-5xl font-medium text-vk-azul">{p.total}</span>
               </div>
+              <p className="mt-1 text-sm text-vk-tinta/70">ou {p.parcela}</p>
               {p.economia && <p className="mt-2 text-xs font-semibold text-vk-azul">{p.economia}</p>}
             </div>
             <a
-              href={whatsappUrl(msg)}
+              href={p.link}
               target="_blank"
               rel="noreferrer"
               className={`mt-auto ${featured ? BTN.primary : BTN.outline}`}
             >
-              Adquirir
+              Comprar
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </Reveal>

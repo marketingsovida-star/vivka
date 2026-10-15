@@ -21,10 +21,14 @@ export const SAC_EMAIL = "sac@vivka.com.br";
 export const SAC_FORM_ENDPOINT = "";
 
 export type Preco = {
-  qtd: "1" | "3" | "5";
+  qtd: "1" | "2" | "3" | "4" | "5";
   label: string;
   total: string;
   unidade: string;
+  /** Maior parcelamento no checkout da Payt (ex.: "12x de R$ 14,47"). */
+  parcela: string;
+  /** Link do checkout da Payt. */
+  link: string;
   economia?: string;
   destaque?: "Mais vendido" | "Melhor escolha";
 };
@@ -91,21 +95,32 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
       { nome: "Cacau", qtd: "q.s.p. 1 dose" },
     ],
     precos: [
-      { qtd: "1", label: "1 frasco", total: "116,90", unidade: "R$ 116,90 por frasco" },
+      {
+        qtd: "1",
+        label: "1 pote",
+        total: "139,90",
+        unidade: "R$ 139,90 por pote",
+        parcela: "12x de R$ 14,47",
+        link: "https://payt.site/2DC7G8E",
+      },
       {
         qtd: "3",
-        label: "3 frascos",
-        total: "263,90",
-        unidade: "R$ 87,97 por frasco",
-        economia: "Economize R$ 86,80",
+        label: "3 potes",
+        total: "379,89",
+        unidade: "R$ 126,63 por pote",
+        parcela: "12x de R$ 39,29",
+        link: "https://payt.site/zZC7rJv",
+        economia: "Economize R$ 39,81",
         destaque: "Mais vendido",
       },
       {
         qtd: "5",
-        label: "5 frascos",
-        total: "420,90",
-        unidade: "R$ 84,18 por frasco",
-        economia: "Economize R$ 163,60",
+        label: "5 potes",
+        total: "589,90",
+        unidade: "R$ 117,98 por pote",
+        parcela: "12x de R$ 61,01",
+        link: "https://payt.site/R5CnMKk",
+        economia: "Economize R$ 109,60",
         destaque: "Melhor escolha",
       },
     ],
@@ -144,21 +159,32 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
       { nome: "Fresh Drink Laranja", qtd: "q.s." },
     ],
     precos: [
-      { qtd: "1", label: "1 frasco", total: "123,90", unidade: "R$ 123,90 por frasco" },
+      {
+        qtd: "1",
+        label: "1 pote",
+        total: "149,90",
+        unidade: "R$ 149,90 por pote",
+        parcela: "12x de R$ 15,50",
+        link: "https://payt.site/DdC9AaG",
+      },
       {
         qtd: "3",
-        label: "3 frascos",
-        total: "278,90",
-        unidade: "R$ 92,97 por frasco",
-        economia: "Economize R$ 92,80",
+        label: "3 potes",
+        total: "398,88",
+        unidade: "R$ 132,96 por pote",
+        parcela: "12x de R$ 41,25",
+        link: "https://payt.site/mNCDM2q",
+        economia: "Economize R$ 50,82",
         destaque: "Mais vendido",
       },
       {
         qtd: "5",
-        label: "5 frascos",
-        total: "446,90",
-        unidade: "R$ 89,38 por frasco",
-        economia: "Economize R$ 172,60",
+        label: "5 potes",
+        total: "579,90",
+        unidade: "R$ 115,98 por pote",
+        parcela: "12x de R$ 59,98",
+        link: "https://payt.site/qZCwqBp",
+        economia: "Economize R$ 169,60",
         destaque: "Melhor escolha",
       },
     ],
@@ -168,24 +194,35 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
   },
 };
 
-// Kit Dia + Noite = Control + Night (preço = soma das faixas individuais)
-// TODO: confirmar com o cliente se o kit terá preço próprio.
+// Kit Dia + Noite = pares Control + Night (economia calculada sobre os potes avulsos)
 export const KIT_PRECOS: Preco[] = [
-  { qtd: "1", label: "1 kit", total: "240,80", unidade: "1 Control + 1 Night" },
   {
-    qtd: "3",
-    label: "3 kits",
-    total: "542,80",
-    unidade: "3 Control + 3 Night",
-    economia: "Economize R$ 179,60",
+    qtd: "1",
+    label: "1 par",
+    total: "279,90",
+    unidade: "1 Control + 1 Night",
+    parcela: "12x de R$ 28,95",
+    link: "https://payt.site/R5CnMNZ",
+    economia: "Economize R$ 9,90",
+  },
+  {
+    qtd: "2",
+    label: "2 pares",
+    total: "519,90",
+    unidade: "2 Control + 2 Night",
+    parcela: "12x de R$ 53,77",
+    link: "https://payt.site/JBCayvd",
+    economia: "Economize R$ 59,70",
     destaque: "Mais vendido",
   },
   {
-    qtd: "5",
-    label: "5 kits",
-    total: "867,80",
-    unidade: "5 Control + 5 Night",
-    economia: "Economize R$ 336,20",
+    qtd: "4",
+    label: "4 pares",
+    total: "998,88",
+    unidade: "4 Control + 4 Night",
+    parcela: "12x de R$ 103,31",
+    link: "https://payt.site/lwCermO",
+    economia: "Economize R$ 160,32",
     destaque: "Melhor escolha",
   },
 ];
