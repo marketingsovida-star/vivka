@@ -22,7 +22,7 @@ import { useHead } from "@/lib/head";
 const FAQS = [
   {
     q: "Qual a diferença entre o Control e o Night?",
-    a: "Cada um foi pensado para um momento do dia. O Control é para a tarde: cromo picolinato, L-triptofano, Gymnema e Safron numa base de cacau, para tomar logo após o almoço, quando a vontade de doce costuma aparecer. O Night é para a noite: inositol, magnésio bisglicinato, L-teanina e melatonina, sabor laranja, para tomar 30 minutos antes de deitar.",
+    a: "Cada um foi pensado para um momento do dia. O Control é para a tarde: cromo picolinato, L-triptofano, Gymnema e Saffron numa base de cacau, para tomar logo após o almoço, quando a vontade de doce costuma aparecer. O Night é para a noite: inositol, melatonina, magnésio bisglicinato e L-theanina, sabor laranja, para tomar 30 minutos antes de deitar.",
   },
   {
     q: "Posso usar os dois no mesmo dia?",
@@ -30,11 +30,11 @@ const FAQS = [
   },
   {
     q: "Como devo usar?",
-    a: "Control: 5 g (1 dose) diluídos em 200 ml de água, logo após o almoço. Night: 3 g (1 dose) diluídos em 200 ml de água, à noite, 30 minutos antes de deitar.",
+    a: "Control: 5 g (1 dose) diluídos em 200 ml de água, logo após o almoço, ou conforme orientação profissional. Night: 5 g (1 dose) diluídos em 200 ml de água, à noite, 30 minutos antes de deitar. Não exceda a recomendação diária indicada na embalagem.",
   },
   {
     q: "Quantas doses tem cada pote?",
-    a: "Os dois vêm em potes de 150 g. O Control rende 30 doses de 5 g, e o Night rende 50 doses de 3 g.",
+    a: "Os dois vêm em potes de 150 g e rendem 30 doses de 5 g cada: um mês de uso diário.",
   },
   {
     q: "Qual é o sabor?",
@@ -397,7 +397,7 @@ function DiaENoite() {
               como um par, e juntos saem mais em conta: nos kits de 2 e 4 pares a economia é ainda maior.
             </p>
             <ul className="mt-6 space-y-2">
-              {["1 Vivka Control (150 g · 30 doses)", "1 Vivka Night (150 g · 50 doses)", "Da tarde à noite, em um só cuidado"].map((t) => (
+              {["1 Vivka Control (150 g · 30 doses)", "1 Vivka Night (150 g · 30 doses)", "Da tarde à noite, em um só cuidado"].map((t) => (
                 <li key={t} className="flex items-center gap-3 text-base text-vk-tinta">
                   <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-vk-azul text-vk-dourado">
                     <Check className="h-4 w-4" aria-hidden="true" />
@@ -427,14 +427,14 @@ function Momentos() {
       icon: Candy,
       tag: "Tarde · Control",
       titulo: "Quando o doce chama",
-      desc: "Logo após o almoço, 5 g em 200 ml de água. Cromo picolinato, L-triptofano, Gymnema e Safron, numa base de cacau, para o momento em que a vontade de doce costuma aparecer.",
+      desc: "Logo após o almoço, 5 g em 200 ml de água. Cromo picolinato, L-triptofano, Gymnema e Saffron, numa base de cacau, para o momento em que a vontade de doce costuma aparecer.",
       cor: "bg-vk-amarelo text-vk-azul",
     },
     {
       icon: MoonStar,
       tag: "Noite · Night",
       titulo: "Quando a noite chega",
-      desc: "Trinta minutos antes de deitar, 3 g em 200 ml de água. Inositol, magnésio bisglicinato, L-teanina e melatonina, sabor laranja, para acompanhar o seu descanso.",
+      desc: "Trinta minutos antes de deitar, 5 g em 200 ml de água. Inositol, melatonina, magnésio bisglicinato e L-theanina, sabor laranja, para acompanhar o seu descanso.",
       cor: "bg-vk-dourado text-vk-azul",
     },
   ];

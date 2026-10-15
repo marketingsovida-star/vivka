@@ -20,6 +20,10 @@ export const SAC_EMAIL = "sac@vivka.com.br";
 // Vazio = sem backend: o formulário abre o e-mail do cliente já preenchido (sem anexos).
 export const SAC_FORM_ENDPOINT = "";
 
+/** Aviso obrigatório exibido abaixo do modo de uso (texto do rótulo). */
+export const AVISO_USO =
+  "Não exceder a recomendação diária de consumo indicada na embalagem. Este produto não é um medicamento.";
+
 export type Preco = {
   qtd: "1" | "2" | "3" | "4" | "5";
   label: string;
@@ -73,25 +77,25 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
     tagline: "Controle da vontade de doces à tarde.",
     frase: "Quando o doce chama, você escolhe.",
     descricao:
-      "Cromo picolinato, L-triptofano, Gymnema e Safron numa base de cacau: um pó para diluir em água logo após o almoço, pensado para o momento em que a vontade de doce costuma aparecer.",
+      "Cromo picolinato, L-triptofano, Gymnema e Saffron numa base de cacau: um pó para diluir em água logo após o almoço, pensado para o momento em que a vontade de doce costuma aparecer.",
     apresentacao: "150 g em pó",
     doses: "30 doses de 5 g",
     sabor: "Base de cacau",
     quando: "Logo após o almoço",
-    modoUso: "Ingerir 5 g (1 dose) diluídos em 200 ml de água, logo após o almoço.",
+    modoUso: "Ingerir 5 g (1 dose) diluídos em 200 ml de água, logo após o almoço, ou conforme orientação profissional.",
     beneficios: ["Mais liberdade para escolher", "Menos doces por impulso", "Alimentação mais equilibrada"],
     ativosDestaque: [
       { nome: "Cromo picolinato", beneficio: "Mineral que participa do metabolismo dos carboidratos e da glicose." },
       { nome: "L-Triptofano", beneficio: "Aminoácido essencial, precursor da serotonina." },
       { nome: "Gymnema", beneficio: "Planta de uso tradicional, associada à percepção do sabor doce." },
-      { nome: "Safron", beneficio: "Extrato do estigma do Crocus sativus, o açafrão-verdadeiro." },
+      { nome: "Saffron", beneficio: "Extrato do estigma do Crocus sativus, o açafrão-verdadeiro." },
     ],
-    // TODO: confirmar a unidade do cromo picolinato (informado como 150 mg; o usual é mcg).
+    // Composição por dose conforme o rótulo (2026-10-15).
     composicao: [
-      { nome: "Cromo picolinato", qtd: "150 mg" },
+      { nome: "Cromo picolinato", qtd: "150 mcg" },
       { nome: "L-Triptofano", qtd: "100 mg" },
       { nome: "Gymnema", qtd: "100 mg" },
-      { nome: "Safron", qtd: "30 mg" },
+      { nome: "Saffron", qtd: "30 mg" },
       { nome: "Cacau", qtd: "q.s.p. 1 dose" },
     ],
     precos: [
@@ -138,24 +142,25 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
     tagline: "Suporte ao sono para noites melhores.",
     frase: "Quando a noite chega, você descansa.",
     descricao:
-      "Inositol, magnésio bisglicinato, L-teanina e melatonina em um pó sabor laranja: para diluir em água à noite, 30 minutos antes de deitar, e acompanhar o seu descanso.",
+      "Inositol, melatonina, magnésio bisglicinato e L-theanina em um pó sabor laranja: para diluir em água à noite, 30 minutos antes de deitar, e acompanhar o seu descanso.",
     apresentacao: "150 g em pó",
-    doses: "50 doses de 3 g",
+    doses: "30 doses de 5 g",
     sabor: "Sabor laranja",
     quando: "30 minutos antes de deitar",
-    modoUso: "Ingerir 3 g (1 dose) diluídos em 200 ml de água, à noite, 30 minutos antes de deitar.",
+    modoUso: "Ingerir 5 g (1 dose) diluídos em 200 ml de água, à noite, 30 minutos antes de deitar.",
     beneficios: ["Relaxa a mente", "Sono mais profundo", "Mais equilíbrio para o dia"],
     ativosDestaque: [
       { nome: "Inositol", beneficio: "Composto naturalmente presente no organismo, da família das vitaminas do complexo B." },
-      { nome: "Magnésio bisglicinato", beneficio: "Magnésio ligado à glicina: forma quelada e bem tolerada." },
-      { nome: "L-Teanina", beneficio: "Aminoácido encontrado nas folhas do chá-verde." },
       { nome: "Melatonina", beneficio: "Substância produzida pelo próprio organismo, ligada ao ciclo do sono." },
+      { nome: "Magnésio bisglicinato", beneficio: "Magnésio ligado à glicina: forma quelada e bem tolerada." },
+      { nome: "L-Theanina", beneficio: "Aminoácido encontrado nas folhas do chá-verde." },
     ],
+    // Composição por dose conforme o rótulo (2026-10-15).
     composicao: [
       { nome: "Inositol", qtd: "1.000 mg" },
-      { nome: "Magnésio bisglicinato", qtd: "200 mg" },
-      { nome: "L-Teanina", qtd: "120 mg" },
       { nome: "Melatonina", qtd: "250 mcg" },
+      { nome: "Magnésio bisglicinato", qtd: "200 mg" },
+      { nome: "L-Theanina", qtd: "120 mg" },
       { nome: "Fresh Drink Laranja", qtd: "q.s." },
     ],
     precos: [

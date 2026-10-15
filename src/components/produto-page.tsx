@@ -1,7 +1,7 @@
 import { Candy, Check, Clock, MoonStar } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow, Footer, PriceCards, ProductTopBar, THEME, TrustStrip } from "@/components/vivka-ui";
-import { type Produto, BASE_URL } from "@/data/produtos";
+import { type Produto, AVISO_USO, BASE_URL } from "@/data/produtos";
 import { useHead } from "@/lib/head";
 
 export function ProdutoPage({ produto }: { produto: Produto }) {
@@ -85,10 +85,8 @@ export function ProdutoPage({ produto }: { produto: Produto }) {
               </Eyebrow>
               <h2 className="mt-3 text-3xl font-medium text-vk-azul md:text-4xl">Simples na sua rotina.</h2>
               <p className="mt-5 max-w-md text-base leading-7 text-vk-tinta/80">{produto.modoUso}</p>
-              <p className="mt-6 max-w-md text-xs leading-6 text-vk-tinta/55">
-                Composição e modo de uso conforme o rótulo. Este produto é um suplemento alimentar e não substitui uma
-                alimentação equilibrada nem acompanhamento profissional. Gestantes, lactantes e pessoas em uso de
-                medicamentos devem consultar um profissional de saúde antes de usar.
+              <p className="mt-6 max-w-md text-[11px] font-medium uppercase leading-5 tracking-[0.12em] text-vk-tinta/60">
+                {AVISO_USO}
               </p>
               <div className="mt-8 flex items-center gap-4 rounded-2xl border border-vk-linha bg-vk-creme p-5">
                 <span className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${t.check}`}>
