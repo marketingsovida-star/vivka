@@ -11,10 +11,14 @@ const DESC =
 
 const MARQUEE = ["Em pó, diluído na água", "Um para cada momento", "Fórmula declarada", "Cacau e laranja", "7 dias de garantia", "Até 12x no cartão"];
 
+/* Véu do lado do texto. Nas fotos de produto o pote começa em ~56% da largura, então o véu
+   termina antes disso; no banner do kit (potes mais à direita) ele vai até 62%, como na home. */
 const VEIL_LIGHT =
-  "linear-gradient(to right, rgba(255,249,238,0.97) 0%, rgba(255,249,238,0.88) 36%, rgba(255,249,238,0.3) 56%, rgba(255,249,238,0) 70%)";
+  "linear-gradient(to right, rgba(255,249,238,0.97) 0%, rgba(255,249,238,0.9) 30%, rgba(255,249,238,0.4) 44%, rgba(255,249,238,0) 56%)";
 const VEIL_DARK =
-  "linear-gradient(to right, rgba(11,29,58,0.97) 0%, rgba(11,29,58,0.9) 36%, rgba(11,29,58,0.35) 56%, rgba(11,29,58,0) 72%)";
+  "linear-gradient(to right, rgba(11,29,58,0.97) 0%, rgba(11,29,58,0.9) 30%, rgba(11,29,58,0.4) 44%, rgba(11,29,58,0) 56%)";
+const VEIL_KIT =
+  "linear-gradient(to right, rgba(255,249,238,0.97) 0%, rgba(255,249,238,0.9) 30%, rgba(255,249,238,0.45) 48%, rgba(255,249,238,0) 62%)";
 
 type Slide = {
   id: string;
@@ -33,7 +37,7 @@ const SLIDES: Slide[] = [
     id: "control",
     dark: false,
     img: "/photos/banner-loja-control.webp",
-    imgMobile: "/products/control-card.webp",
+    imgMobile: "/photos/banner-loja-control.webp",
     veil: VEIL_LIGHT,
     tag: "Para a sua tarde",
     titulo: (
@@ -48,7 +52,7 @@ const SLIDES: Slide[] = [
     id: "night",
     dark: true,
     img: "/photos/banner-loja-night.webp",
-    imgMobile: "/products/night-card.webp",
+    imgMobile: "/photos/banner-loja-night.webp",
     veil: VEIL_DARK,
     tag: "Para a sua noite",
     titulo: (
@@ -64,7 +68,7 @@ const SLIDES: Slide[] = [
     dark: false,
     img: "/photos/hero-banner.webp",
     imgMobile: "/photos/hero-banner.webp",
-    veil: VEIL_LIGHT,
+    veil: VEIL_KIT,
     tag: "Kit Dia + Noite",
     titulo: <>Vivka une os dois momentos.</>,
     sub: "Control e Night juntos, com a mesma assinatura e economia maior nos kits de 2 e 4 pares.",
