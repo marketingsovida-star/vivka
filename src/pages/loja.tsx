@@ -176,7 +176,7 @@ function HeroCarousel() {
   return (
     <section className="relative overflow-hidden border-b border-vk-linha bg-vk-creme">
       {/* DESKTOP — banner igual ao da home (imagem de fundo + véu do lado do texto) */}
-      <div className="relative hidden h-[760px] lg:block">
+      <div className="relative hidden h-[904px] lg:block">
         {SLIDES.map((s, i) => (
           <div
             key={s.id}
@@ -191,11 +191,11 @@ function HeroCarousel() {
               aria-hidden="true"
             />
             <div className="absolute inset-0" style={{ background: s.veil }} aria-hidden="true" />
-            <div className="relative mx-auto flex h-full max-w-7xl flex-col px-6 pb-16 pt-7 md:px-10">
+            <div className="relative mx-auto flex h-full max-w-7xl flex-col px-6 pb-24 pt-7 md:px-10">
               <div className={`border-b pb-5 ${s.dark ? "border-vk-creme/20" : "border-vk-azul/15"}`}>
                 <HeaderRow dark={s.dark} />
               </div>
-              <div className="flex flex-1 items-center py-10">
+              <div className="flex flex-1 items-center py-12">
                 <div className="w-full max-w-xl">
                   <Eyebrow rule={s.dark ? "bg-vk-dourado" : "bg-vk-dourado"} className={s.dark ? "text-vk-dourado" : "text-vk-azul"}>
                     {s.tag}
