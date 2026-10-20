@@ -15,7 +15,7 @@ import {
   Truck,
 } from "lucide-react";
 import { Reveal, RevealImage } from "@/components/reveal";
-import { BTN, Eyebrow, Footer, Logo, NAV, PriceCards, THEME } from "@/components/vivka-ui";
+import { BTN, Eyebrow, Footer, HeaderRow, Logo, PriceCards, SiteHeader, THEME } from "@/components/vivka-ui";
 import { PRODUTOS, KIT_PRECOS, asset, type Produto } from "@/data/produtos";
 import { useHead } from "@/lib/head";
 
@@ -109,30 +109,16 @@ export function HomePage() {
   );
 }
 
-/* ---------- STICKY HEADER ---------- */
+/* ---------- STICKY HEADER (mesmo cabeçalho de todas as páginas) ---------- */
 function StickyHeader({ visible }: { visible: boolean }) {
   return (
     <div
-      className={`fixed inset-x-0 top-0 z-40 border-b border-vk-linha bg-vk-creme/92 backdrop-blur transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"
       }`}
       aria-hidden={!visible}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 md:px-10">
-        <a href="#inicio" aria-label="Voltar ao início">
-          <Logo variant="azul" className="h-5" />
-        </a>
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV.map((n) => (
-            <a key={n.href} href={n.href.replace("/", "")} className="text-sm text-vk-tinta/75 transition-colors hover:text-vk-azul">
-              {n.label}
-            </a>
-          ))}
-        </nav>
-        <a href="#produtos" className={`${BTN.primary} min-h-10 px-5`}>
-          Ver produtos
-        </a>
-      </div>
+      <SiteHeader />
     </div>
   );
 }
@@ -154,19 +140,9 @@ function Hero() {
       />
 
       <div className="relative mx-auto max-w-7xl px-6 pb-14 pt-6 md:px-10 md:pb-24 md:pt-7">
-        {/* Top bar */}
-        <div className="flex items-center justify-between gap-6 border-b border-vk-azul/15 pb-5">
-          <Logo variant="azul" className="h-6 md:h-7" />
-          <nav className="hidden items-center gap-8 md:flex">
-            {NAV.map((n) => (
-              <a key={n.href} href={n.href.replace("/", "")} className="text-sm text-vk-azul/80 transition-colors hover:text-vk-azul">
-                {n.label}
-              </a>
-            ))}
-          </nav>
-          <a href="#produtos" className={`${BTN.primary} hidden min-h-10 px-5 md:inline-flex`}>
-            Ver produtos
-          </a>
+        {/* Top bar (cabeçalho compartilhado: logo · navegação · Loja + sacola) */}
+        <div className="border-b border-vk-azul/15 pb-5">
+          <HeaderRow />
         </div>
 
         <div className="flex items-center py-8 md:py-12 lg:min-h-[620px]">

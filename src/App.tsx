@@ -4,6 +4,7 @@ import { HomePage } from "@/pages/home";
 import { ControlPage } from "@/pages/control";
 import { NightPage } from "@/pages/night";
 import { SacPage } from "@/pages/sac";
+import { LojaPage } from "@/pages/loja";
 
 /* Rola para o topo ao trocar de rota; respeita âncoras (#produtos, #faq...). */
 function ScrollManager() {
@@ -31,6 +32,7 @@ export function App() {
         <Route path="/control" element={<ControlPage />} />
         <Route path="/night" element={<NightPage />} />
         <Route path="/sac" element={<SacPage />} />
+        <Route path="/loja" element={<LojaPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

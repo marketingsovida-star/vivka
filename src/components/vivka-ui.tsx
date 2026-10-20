@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ShieldCheck, Truck, MessageCircle, Lock } from "lucide-react";
+import { ArrowRight, ShieldCheck, Truck, MessageCircle, Lock, ShoppingBag } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { type Preco, type ProdutoId, asset } from "@/data/produtos";
 
@@ -94,18 +94,65 @@ export const BTN = {
   lightOutline: `${BTN_BASE} border border-vk-creme/60 text-vk-creme hover:bg-vk-creme/10 focus-visible:ring-vk-creme`,
 };
 
+/* ---------- Cabeçalho compartilhado (home, loja e páginas de produto) ----------
+   HeaderRow = só a linha (logo · navegação · Loja + sacola), para usar dentro do hero.
+   SiteHeader = a mesma linha numa barra com fundo, para o topo fixo. */
+export function HeaderRow({ dark = false, compact = false }: { dark?: boolean; compact?: boolean }) {
+  return (
+    <div className="flex items-center justify-between gap-6">
+      <Link to="/" aria-label="Vivka — início">
+        <Logo variant={dark ? "creme" : "azul"} className={compact ? "h-5" : "h-6 md:h-7"} />
+      </Link>
+      <nav className="hidden items-center gap-8 md:flex">
+        {NAV.map((n) => (
+          <Link
+            key={n.href}
+            to={n.href}
+            className={`text-sm transition-colors ${dark ? "text-vk-creme/80 hover:text-vk-dourado" : "text-vk-azul/80 hover:text-vk-azul"}`}
+          >
+            {n.label}
+          </Link>
+        ))}
+      </nav>
+      <div className="flex items-center gap-2 sm:gap-3">
+        <Link
+          to="/loja"
+          className={`inline-flex min-h-10 items-center justify-center rounded-full px-4 text-sm font-semibold transition-colors sm:px-5 ${
+            dark ? "bg-vk-dourado text-vk-azul hover:bg-[#d8a63f]" : "bg-vk-azul text-vk-creme hover:bg-vk-noite"
+          }`}
+        >
+          Loja
+        </Link>
+        {/* Sacola: sem funcionalidade por enquanto */}
+        <button
+          type="button"
+          aria-label="Sacola"
+          className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${
+            dark ? "border-vk-creme/60 text-vk-creme hover:bg-vk-creme/10" : "border-vk-azul text-vk-azul hover:bg-vk-areia"
+          }`}
+        >
+          <ShoppingBag className="h-4 w-4" aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function SiteHeader() {
+  return (
+    <div className="border-b border-vk-linha bg-vk-creme/92 backdrop-blur">
+      <div className="mx-auto max-w-7xl px-6 py-3 md:px-10">
+        <HeaderRow compact />
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Top bar persistente (páginas de produto) ---------- */
 export function ProductTopBar() {
   return (
-    <header className="sticky top-0 z-40 border-b border-vk-linha bg-vk-creme/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 md:px-10">
-        <Link to="/" aria-label="Vivka — início">
-          <Logo variant="azul" className="h-5 md:h-6" />
-        </Link>
-        <Link to="/#produtos" className="text-sm text-vk-tinta/75 transition-colors hover:text-vk-azul">
-          ← Voltar aos produtos
-        </Link>
-      </div>
+    <header className="sticky top-0 z-40">
+      <SiteHeader />
     </header>
   );
 }
@@ -238,6 +285,11 @@ export function Footer() {
           <div>
             <div className="label-caps text-vk-dourado">Produtos e ajuda</div>
             <ul className="mt-4 space-y-2 text-sm text-vk-creme/75">
+              <li>
+                <Link to="/loja" className="transition-colors hover:text-vk-dourado">
+                  Loja
+                </Link>
+              </li>
               <li>
                 <Link to="/control" className="transition-colors hover:text-vk-dourado">
                   Vivka Control
