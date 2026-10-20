@@ -152,7 +152,10 @@ export function LojaPage() {
         <div ref={heroRef}>
           <HeroCarousel />
         </div>
-        <Marquee />
+        {/* No mobile/tablet a faixa fica no fluxo normal; no desktop ela sobrepõe a base do banner (ver HeroCarousel) */}
+        <div className="lg:hidden">
+          <Marquee />
+        </div>
         <Vitrine />
         <Comprar />
         <Diferenciais />
@@ -247,7 +250,12 @@ function HeroCarousel() {
         ))}
       </div>
 
-      <Dots active={active} dark={dark} onPick={setActive} className="absolute inset-x-0 bottom-5 z-10 hidden justify-center gap-2 lg:flex" />
+      {/* Desktop: bolinhas + faixa sobrepostas à base do banner, encostadas na borda inferior da primeira tela
+          (o banner em si não muda: 904 px). top = clamp(mín 720px, 100vh - 64px, máx 840px) — 64 = bolinhas + faixa. */}
+      <div className="absolute inset-x-0 z-10 hidden lg:block" style={{ top: "clamp(720px, calc(100vh - 64px), 840px)" }}>
+        <Dots active={active} dark={dark} onPick={setActive} className="mb-3 flex justify-center gap-2" />
+        <Marquee />
+      </div>
     </section>
   );
 }
