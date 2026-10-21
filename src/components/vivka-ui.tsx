@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ShieldCheck, Truck, MessageCircle, Lock, ShoppingBag } from "lucide-react";
+import { ArrowRight, BadgeCheck, ChevronRight, ShieldCheck, Truck, MessageCircle, Lock, ShoppingBag } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { PHARMA_OPCOES, type Preco, type ProdutoId, asset } from "@/data/produtos";
 
@@ -224,46 +224,37 @@ export function PriceCards({
   );
 }
 
-/* ---------- Seção Pharma (home e loja, logo abaixo do kit) — layout da seção Pharma da Sanoví ---------- */
-function ScallopSeal({ className }: { className?: string }) {
-  const teeth = 14;
-  const radius = 19;
-  const dot = 5;
-  const seals = Array.from({ length: teeth }, (_, index) => {
-    const angle = (index / teeth) * Math.PI * 2;
-    return { cx: 32 + radius * Math.cos(angle), cy: 32 + radius * Math.sin(angle) };
-  });
-  return (
-    <svg viewBox="0 0 64 64" className={className} aria-hidden="true">
-      {seals.map((seal, index) => (
-        <circle key={index} cx={seal.cx} cy={seal.cy} r={dot} fill="currentColor" />
-      ))}
-      <circle cx="32" cy="32" r={radius} fill="currentColor" />
-      <path d="M23 32.5l6.5 6.5L41 26" fill="none" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="stroke-vk-dourado" />
-    </svg>
-  );
-}
-
+/* ---------- Seção Pharma (home e loja, logo abaixo do kit) — layout da seção Pharma da Bersch ---------- */
 export function PharmaSection() {
   return (
-    <section className="bg-vk-creme px-4 pb-5 pt-1 md:px-8 md:pb-16 md:pt-4">
-      <div className="mx-auto max-w-[1032px] overflow-hidden rounded-3xl border border-vk-azul/30 bg-white">
-        <p className="label-caps bg-vk-azul py-2.5 text-center text-vk-dourado">Vivka Pharma</p>
-        <div className="px-4 pb-6 pt-5 text-center md:px-12 md:pb-14 md:pt-12">
-          <h2 className="text-4xl font-medium text-vk-azul md:text-5xl">Fórmulas personalizadas</h2>
-          <p className="mt-2 text-base text-vk-tinta/65 md:mt-3 md:text-lg">Na Vivka Pharma você pode solicitar:</p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-3 md:mt-8">
-            {PHARMA_OPCOES.map((option) => (
-              <div key={option} className="rounded-xl border border-vk-azul/25 bg-vk-areia px-4 py-4 md:py-6">
-                <ScallopSeal className="mx-auto h-11 w-11 text-vk-azul" />
-                <p className="mt-2 text-base font-medium text-vk-tinta md:mt-3">{option}</p>
-              </div>
-            ))}
+    <section aria-label="Vivka Pharma" className="bg-vk-creme px-5 pb-16 pt-2 md:px-6">
+      <div className="mx-auto max-w-[1160px]">
+        <div className="overflow-hidden rounded-[10px] border-[1.5px] border-vk-dourado bg-white shadow-[0_8px_30px_rgba(225,178,79,0.18)]">
+          <div className="label-caps bg-vk-dourado py-1.5 text-center text-[0.74rem] text-vk-azul">Vivka Pharma</div>
+          <div className="px-5 py-8 text-center md:px-10 md:py-10">
+            <h2 className="text-[1.9rem] font-medium leading-tight text-vk-azul md:text-[2.5rem]">Fórmulas personalizadas</h2>
+            <p className="mt-2 text-[0.98rem] text-vk-tinta/65 md:text-[1.05rem]">Na Vivka Pharma você pode solicitar:</p>
+            <ul className="mx-auto mt-6 grid max-w-[860px] gap-3 sm:grid-cols-3">
+              {PHARMA_OPCOES.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center justify-center gap-3 rounded-[8px] border border-vk-linha bg-vk-areia px-4 py-4 sm:flex-col sm:gap-2.5"
+                >
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-vk-dourado">
+                    <BadgeCheck className="h-5 w-5 text-vk-azul" strokeWidth={1.5} aria-hidden="true" />
+                  </span>
+                  <span className="text-[0.92rem] font-medium leading-snug text-vk-tinta md:text-[0.98rem]">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <Link
+              to="/pharma"
+              className="label-caps mt-7 inline-flex min-h-[50px] w-full items-center justify-center rounded-[6px] bg-vk-dourado px-10 text-[0.86rem] text-vk-azul transition hover:bg-[#d8a63f] sm:w-auto"
+            >
+              Solicitar no Pharma
+              <ChevronRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
-          <Link to="/pharma" className={`mt-5 w-full sm:w-auto md:mt-8 ${BTN.primary}`}>
-            Solicitar no Pharma
-            <ArrowRight className="h-5 w-5" aria-hidden="true" />
-          </Link>
         </div>
       </div>
     </section>
