@@ -28,6 +28,14 @@ export const PHARMA_EMAIL = "pharma@vivka.com.br";
 export const PHARMA_FORM_ENDPOINT = "";
 export const PHARMA_OPCOES = ["Sua fórmula prescrita", "Sua fórmula personalizada", "Orçamento de manipulação"];
 
+/* Backend central Pharma (Supabase compartilhado por todas as marcas — ver repo pharma-backend).
+   Com URL e chave preenchidas, o formulário grava pedidos/rascunhos no banco e o /admin funciona;
+   vazio = fallback por e-mail (PHARMA_FORM_ENDPOINT / mailto). */
+export const PHARMA_SUPABASE_URL = "";
+export const PHARMA_SUPABASE_ANON_KEY = "";
+/** Identificador desta marca no backend central (= marcas.slug). */
+export const PHARMA_MARCA = "vivka";
+
 /** Aviso obrigatório exibido abaixo do modo de uso (texto do rótulo). */
 export const AVISO_USO =
   "Não exceder a recomendação diária de consumo indicada na embalagem. Este produto não é um medicamento.";

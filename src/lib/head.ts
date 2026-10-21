@@ -8,6 +8,8 @@ type HeadOptions = {
   ogType?: "website" | "product";
   ogImage?: string;
   jsonLd?: object;
+  /** Páginas internas (admin): não indexar. */
+  noindex?: boolean;
 };
 
 function setMeta(attr: "name" | "property", key: string, content: string) {
@@ -31,11 +33,12 @@ function setLink(rel: string, href: string) {
 }
 
 /* SEO por rota (SPA): título, description, canonical, Open Graph e JSON-LD. */
-export function useHead({ title, description, path, ogType = "website", ogImage, jsonLd }: HeadOptions) {
+export function useHead({ title, description, path, ogType = "website", ogImage, jsonLd, noindex = false }: HeadOptions) {
   useEffect(() => {
     const url = `${BASE_URL}${path}`;
     document.title = title;
     setMeta("name", "description", description);
+    setMeta("name", "robots", noindex ? "noindex, nofollow" : "index, follow");
     setMeta("property", "og:title", title);
     setMeta("property", "og:description", description);
     setMeta("property", "og:type", ogType);
@@ -58,5 +61,5 @@ export function useHead({ title, description, path, ogType = "website", ogImage,
     return () => {
       script?.remove();
     };
-  }, [title, description, path, ogType, ogImage, jsonLd]);
+  }, [title, description, path, ogType, ogImage, jsonLd, noindex]);
 }

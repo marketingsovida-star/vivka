@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FileUp, Headset, MailCheck, PackageCheck } from "lucide-react";
 import { Footer, SiteHeader } from "@/components/vivka-ui";
 import { PHARMA_EMAIL, PHARMA_FORM_ENDPOINT, WHATSAPP_NUMBER, asset } from "@/data/produtos";
+import { createPedido, newId, pharmaBackendEnabled, saveQuizLead, uploadPrescription, type LeadPayload } from "@/lib/pharma-backend";
 import { useHead } from "@/lib/head";
 
 /* Página Vivka Pharma — mesmo layout e fluxo da /pharma da Bersch Health, com a estética Vivka. */
@@ -187,6 +188,56 @@ function PharmaModal({ onClose }: { onClose: () => void }) {
   const [uf, setUf] = useState("");
   const [referencia, setReferencia] = useState("");
   const [frete, setFrete] = useState<keyof typeof FRETES>("pac");
+  const [filePath, setFilePath] = useState<string | null>(null);
+
+  /* Backend central (como na Bersch): sessão do rascunho, id fixo do pedido (reenviar após falha não
+     duplica) e arquivo já enviado numa tentativa anterior. */
+  const sessionIdRef = useRef<string>(newId());
+  const pedidoIdRef = useRef<string>(newId());
+  const uploadedRef = useRef<{ file: File; path: string } | null>(null);
+
+  function snapshot(extra: Partial<LeadPayload> = {}): LeadPayload {
+    return {
+      session_id: sessionIdRef.current,
+      last_step: step === "done" ? 4 : step,
+      prescription_type: rxMode,
+      prescription_file_path: filePath,
+      prescription_text: rxMode === "typed" ? typed : null,
+      nome,
+      email,
+      whatsapp,
+      rg,
+      cpf,
+      data_nascimento: nasc,
+      cep,
+      logradouro,
+      numero,
+      complemento,
+      bairro,
+      cidade,
+      uf: uf.toUpperCase(),
+      referencia,
+      frete,
+      ...extra,
+    };
+  }
+
+  // Autosave do rascunho (carrinho abandonado) assim que houver qualquer dado digitado.
+  const savedRef = useRef("");
+  useEffect(() => {
+    if (!pharmaBackendEnabled || step === "done") return;
+    const anyData = [nome, email, whatsapp, rg, cpf, nasc, cep, logradouro, numero, bairro, cidade, uf, typed].some((v) => v.trim().length > 0);
+    if (!anyData) return;
+    const payload = snapshot();
+    const key = JSON.stringify(payload);
+    if (key === savedRef.current) return;
+    const t = setTimeout(() => {
+      savedRef.current = key;
+      void saveQuizLead(payload);
+    }, 1200);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nome, email, whatsapp, rg, cpf, nasc, cep, logradouro, numero, complemento, bairro, cidade, uf, referencia, frete, typed, rxMode, filePath, step]);
 
   async function lookupCep(v: string) {
     const clean = v.replace(/\D/g, "");
@@ -250,7 +301,42 @@ function PharmaModal({ onClose }: { onClose: () => void }) {
     ];
     const subject = `[Vivka Pharma] Nova solicitação — ${nome.trim()}`;
     try {
-      if (PHARMA_FORM_ENDPOINT) {
+      if (pharmaBackendEnabled) {
+        // 1) receita → storage (só uma vez por arquivo); 2) pedido → banco; 3) rascunho marcado como completo
+        let path: string | null = null;
+        if (rxMode === "upload" && file) {
+          if (uploadedRef.current?.file === file) {
+            path = uploadedRef.current.path;
+          } else {
+            path = await uploadPrescription(file);
+            uploadedRef.current = { file, path };
+          }
+          setFilePath(path);
+        }
+        await createPedido({
+          id: pedidoIdRef.current,
+          prescription_type: rxMode,
+          prescription_file_path: path,
+          prescription_text: rxMode === "typed" ? typed.trim() : null,
+          nome: nome.trim(),
+          email: email.trim(),
+          whatsapp: whatsapp.trim() || null,
+          rg: rg.trim(),
+          cpf: cpf.trim(),
+          data_nascimento: nasc,
+          cep: onlyDigits(cep),
+          logradouro: logradouro.trim(),
+          numero: numero.trim(),
+          complemento: complemento.trim() || null,
+          bairro: bairro.trim(),
+          cidade: cidade.trim(),
+          uf: uf.trim().toUpperCase(),
+          referencia: referencia.trim() || null,
+          frete,
+        });
+        await saveQuizLead(snapshot({ status: "completo", last_step: 4, prescription_file_path: path }));
+        setEnviadoPor("endpoint");
+      } else if (PHARMA_FORM_ENDPOINT) {
         const fd = new FormData();
         fd.append("_subject", subject);
         campos.forEach(([k, v]) => fd.append(k, v));
