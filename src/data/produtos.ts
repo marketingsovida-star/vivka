@@ -31,8 +31,8 @@ export const PHARMA_OPCOES = ["Sua fórmula prescrita", "Sua fórmula personaliz
 /* Backend central Pharma (Supabase compartilhado por todas as marcas — ver repo pharma-backend).
    Com URL e chave preenchidas, o formulário grava pedidos/rascunhos no banco e o /admin funciona;
    vazio = fallback por e-mail (PHARMA_FORM_ENDPOINT / mailto). */
-export const PHARMA_SUPABASE_URL = "";
-export const PHARMA_SUPABASE_ANON_KEY = "";
+export const PHARMA_SUPABASE_URL = "https://ewxxdtickxiqkjqthodq.supabase.co";
+export const PHARMA_SUPABASE_ANON_KEY = "sb_publishable_mTGFgjFGZ3b26MRejMc0rg_zCaQ14vl";
 /** Identificador desta marca no backend central (= marcas.slug). */
 export const PHARMA_MARCA = "vivka";
 
