@@ -15,7 +15,7 @@ import {
   Truck,
 } from "lucide-react";
 import { Reveal, RevealImage } from "@/components/reveal";
-import { BTN, Eyebrow, Footer, HeaderRow, Logo, PriceCards, SiteHeader, THEME } from "@/components/vivka-ui";
+import { BTN, Eyebrow, Footer, HeaderRow, Logo, PharmaSection, PriceCards, SiteHeader, THEME } from "@/components/vivka-ui";
 import { PRODUTOS, KIT_PRECOS, asset, type Produto } from "@/data/produtos";
 import { useHead } from "@/lib/head";
 
@@ -98,6 +98,7 @@ export function HomePage() {
         <Produtos />
         <ProdutoNight />
         <DiaENoite />
+        <PharmaSection />
         <Momentos />
         <Diferenciais />
         <Manifesto />

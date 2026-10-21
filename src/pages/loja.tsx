@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Candy, Check, MoonStar, Plus, ShieldCheck, SunMoon, Truck } from "lucide-react";
 import { Reveal } from "@/components/reveal";
-import { BTN, Eyebrow, Footer, HeaderRow, SiteHeader, THEME } from "@/components/vivka-ui";
+import { BTN, Eyebrow, Footer, HeaderRow, PharmaSection, SiteHeader, THEME } from "@/components/vivka-ui";
 import { PRODUTOS, KIT_PRECOS, asset, type Preco, type Produto } from "@/data/produtos";
 import { useHead } from "@/lib/head";
 
@@ -158,6 +158,7 @@ export function LojaPage() {
         </div>
         <Vitrine />
         <Comprar />
+        <PharmaSection />
         <Diferenciais />
         <FAQ />
         <CtaFinal />

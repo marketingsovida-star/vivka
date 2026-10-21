@@ -20,6 +20,14 @@ export const SAC_EMAIL = "sac@vivka.com.br";
 // Vazio = sem backend: o formulário abre o e-mail do cliente já preenchido (sem anexos).
 export const SAC_FORM_ENDPOINT = "";
 
+/* ---------- Pharma (página /pharma e seção Pharma) ---------- */
+// TODO: e-mail que recebe as solicitações de manipulação.
+export const PHARMA_EMAIL = "pharma@vivka.com.br";
+// Endpoint de formulário (Formspree, Web3Forms ou similar — aceita POST multipart com a receita anexada).
+// Vazio = sem backend: o modal abre o e-mail do cliente já preenchido (a receita é anexada à mão).
+export const PHARMA_FORM_ENDPOINT = "";
+export const PHARMA_OPCOES = ["Sua fórmula prescrita", "Sua fórmula personalizada", "Orçamento de manipulação"];
+
 /** Aviso obrigatório exibido abaixo do modo de uso (texto do rótulo). */
 export const AVISO_USO =
   "Não exceder a recomendação diária de consumo indicada na embalagem. Este produto não é um medicamento.";

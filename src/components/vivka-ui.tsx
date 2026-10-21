@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, ShieldCheck, Truck, MessageCircle, Lock, ShoppingBag } from "lucide-react";
 import { Reveal } from "@/components/reveal";
-import { type Preco, type ProdutoId, asset } from "@/data/produtos";
+import { PHARMA_OPCOES, type Preco, type ProdutoId, asset } from "@/data/produtos";
 
 export const NAV = [
   { href: "/#produtos", label: "Produtos" },
@@ -224,6 +224,52 @@ export function PriceCards({
   );
 }
 
+/* ---------- Seção Pharma (home e loja, logo abaixo do kit) — layout da seção Pharma da Sanoví ---------- */
+function ScallopSeal({ className }: { className?: string }) {
+  const teeth = 14;
+  const radius = 19;
+  const dot = 5;
+  const seals = Array.from({ length: teeth }, (_, index) => {
+    const angle = (index / teeth) * Math.PI * 2;
+    return { cx: 32 + radius * Math.cos(angle), cy: 32 + radius * Math.sin(angle) };
+  });
+  return (
+    <svg viewBox="0 0 64 64" className={className} aria-hidden="true">
+      {seals.map((seal, index) => (
+        <circle key={index} cx={seal.cx} cy={seal.cy} r={dot} fill="currentColor" />
+      ))}
+      <circle cx="32" cy="32" r={radius} fill="currentColor" />
+      <path d="M23 32.5l6.5 6.5L41 26" fill="none" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="stroke-vk-dourado" />
+    </svg>
+  );
+}
+
+export function PharmaSection() {
+  return (
+    <section className="bg-vk-creme px-4 pb-5 pt-1 md:px-8 md:pb-16 md:pt-4">
+      <div className="mx-auto max-w-[1032px] overflow-hidden rounded-3xl border border-vk-azul/30 bg-white">
+        <p className="label-caps bg-vk-azul py-2.5 text-center text-vk-dourado">Vivka Pharma</p>
+        <div className="px-4 pb-6 pt-5 text-center md:px-12 md:pb-14 md:pt-12">
+          <h2 className="text-4xl font-medium text-vk-azul md:text-5xl">Fórmulas personalizadas</h2>
+          <p className="mt-2 text-base text-vk-tinta/65 md:mt-3 md:text-lg">Na Vivka Pharma você pode solicitar:</p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3 md:mt-8">
+            {PHARMA_OPCOES.map((option) => (
+              <div key={option} className="rounded-xl border border-vk-azul/25 bg-vk-areia px-4 py-4 md:py-6">
+                <ScallopSeal className="mx-auto h-11 w-11 text-vk-azul" />
+                <p className="mt-2 text-base font-medium text-vk-tinta md:mt-3">{option}</p>
+              </div>
+            ))}
+          </div>
+          <Link to="/pharma" className={`mt-5 w-full sm:w-auto md:mt-8 ${BTN.primary}`}>
+            Solicitar no Pharma
+            <ArrowRight className="h-5 w-5" aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- Selos de confiança ---------- */
 export function TrustStrip({ dark = false }: { dark?: boolean }) {
   const itens = [
@@ -298,6 +344,11 @@ export function Footer() {
               <li>
                 <Link to="/night" className="transition-colors hover:text-vk-dourado">
                   Vivka Night
+                </Link>
+              </li>
+              <li>
+                <Link to="/pharma" className="transition-colors hover:text-vk-dourado">
+                  Vivka Pharma
                 </Link>
               </li>
               <li>
