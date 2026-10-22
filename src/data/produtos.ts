@@ -4,7 +4,10 @@
 export const BASE_URL = "https://vivka.com.br";
 
 /** Prefixa um caminho de /public com a base do Vite (ex.: "/vivka/" no GitHub Pages; "/" em domínio próprio). */
-export const asset = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, "")}${p}`;
+/** Versão das imagens: troque ao substituir fotos/mockups para o navegador não usar a cópia antiga em cache. */
+export const ASSET_VERSION = "2026-10-22";
+export const asset = (p: string) =>
+  `${import.meta.env.BASE_URL.replace(/\/$/, "")}${p}${/\.(webp|png|jpe?g|svg)$/i.test(p) ? `?v=${ASSET_VERSION}` : ""}`;
 
 // TODO: número do WhatsApp da Vivka (DDI + DDD + número, só dígitos).
 export const WHATSAPP_NUMBER = "5500000000000";
