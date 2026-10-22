@@ -94,11 +94,11 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
     frase: "Quando o doce chama, você escolhe.",
     descricao:
       "Cromo picolinato, L-triptofano, Gymnema e Saffron numa base de cacau: um pó para diluir em água logo após o almoço, pensado para o momento em que a vontade de doce costuma aparecer.",
-    apresentacao: "150 g em pó",
-    doses: "30 doses de 5 g",
+    apresentacao: "90 g em pó",
+    doses: "1 scoop por dose",
     sabor: "Base de cacau",
     quando: "Logo após o almoço",
-    modoUso: "Ingerir 5 g (1 dose) diluídos em 200 ml de água, logo após o almoço, ou conforme orientação profissional.",
+    modoUso: "Ingerir 1 scoop diluído em 200 ml de água, logo após o almoço, ou conforme orientação profissional.",
     beneficios: ["Mais liberdade para escolher", "Menos doces por impulso", "Alimentação mais equilibrada"],
     ativosDestaque: [
       { nome: "Cromo picolinato", beneficio: "Mineral que participa do metabolismo dos carboidratos e da glicose." },
@@ -106,12 +106,14 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
       { nome: "Gymnema", beneficio: "Planta de uso tradicional, associada à percepção do sabor doce." },
       { nome: "Saffron", beneficio: "Extrato do estigma do Crocus sativus, o açafrão-verdadeiro." },
     ],
-    // Composição por dose conforme o rótulo (2026-10-15).
+    // Composição por dose conforme o rótulo (2026-10-22, pote de 90 g).
     composicao: [
       { nome: "Cromo picolinato", qtd: "150 mcg" },
       { nome: "L-Triptofano", qtd: "100 mg" },
       { nome: "Gymnema", qtd: "100 mg" },
       { nome: "Saffron", qtd: "30 mg" },
+      { nome: "Taumatina", qtd: "q.s." },
+      { nome: "Aroma de chocolate", qtd: "q.s." },
       { nome: "Cacau", qtd: "q.s.p. 1 dose" },
     ],
     precos: [
@@ -146,7 +148,7 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
     ],
     image: "/products/control-card.webp",
     imageCutout: "/products/control-cutout.webp",
-    imageAlt: "Vivka Control — pote de 150 g com rótulo amarelo e azul",
+    imageAlt: "Vivka Control — pote de 90 g com rótulo amarelo e azul",
   },
   night: {
     id: "night",

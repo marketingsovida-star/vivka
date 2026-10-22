@@ -86,7 +86,7 @@ const DIFERENCIAIS = [
 const FAQS = [
   {
     q: "Como devo usar os produtos?",
-    a: "Control: 5 g (1 dose) diluídos em 200 ml de água, logo após o almoço, ou conforme orientação profissional. Night: 5 g (1 dose) diluídos em 200 ml de água, à noite, 30 minutos antes de deitar. Não exceda a recomendação diária indicada na embalagem.",
+    a: "Control: 1 scoop diluído em 200 ml de água, logo após o almoço, ou conforme orientação profissional. Night: 5 g (1 dose) diluídos em 200 ml de água, à noite, 30 minutos antes de deitar. Não exceda a recomendação diária indicada na embalagem.",
   },
   {
     q: "Qual a diferença entre o Control e o Night?",
@@ -98,7 +98,7 @@ const FAQS = [
   },
   {
     q: "Quantas doses tem cada pote?",
-    a: "Os dois vêm em potes de 150 g e rendem 30 doses de 5 g cada: um mês de uso diário.",
+    a: "O Control vem em pote de 90 g (1 scoop por dose) e o Night em pote de 150 g (30 doses de 5 g).",
   },
   {
     q: "Como funciona a compra?",
@@ -384,7 +384,7 @@ function Comprar() {
             nome="Dia + Noite"
             sub="Control + Night"
             imagePrefix="kit"
-            meta="1 Control 150 g + 1 Night 150 g por par"
+            meta="1 Control 90 g + 1 Night 150 g por par"
             precos={KIT_PRECOS}
             unidade={["par", "pares"]}
             baseUnit={parseBRL(PRODUTOS.control.precos[0].total) + parseBRL(PRODUTOS.night.precos[0].total)}
