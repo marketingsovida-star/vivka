@@ -9,12 +9,10 @@ export const ASSET_VERSION = "2026-10-22";
 export const asset = (p: string) =>
   `${import.meta.env.BASE_URL.replace(/\/$/, "")}${p}${/\.(webp|png|jpe?g|svg)$/i.test(p) ? `?v=${ASSET_VERSION}` : ""}`;
 
-// TODO: número do WhatsApp da Vivka (DDI + DDD + número, só dígitos).
-export const WHATSAPP_NUMBER = "5500000000000";
-export const WHATSAPP_DISPLAY = "(00) 00000-0000";
+export const WHATSAPP_DISPLAY = "(51) 99272-2740";
 
 export const whatsappUrl = (msg: string) =>
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  `${BASE_URL}/whatsapp?text=${encodeURIComponent(msg)}`;
 
 /* ---------- SAC (página /sac) ---------- */
 // TODO: e-mail que recebe os chamados (usado no fallback por e-mail e no texto da página).
@@ -24,7 +22,6 @@ export const SAC_EMAIL = "sac@vivka.com.br";
 export const SAC_FORM_ENDPOINT = "";
 
 /* ---------- Pharma (página /pharma e seção Pharma) ---------- */
-// TODO: e-mail que recebe as solicitações de manipulação.
 export const PHARMA_EMAIL = "pharma@vivka.com.br";
 // Endpoint de formulário (Formspree, Web3Forms ou similar — aceita POST multipart com a receita anexada).
 // Vazio = sem backend: o modal abre o e-mail do cliente já preenchido (a receita é anexada à mão).
