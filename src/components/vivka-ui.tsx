@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, BadgeCheck, ChevronRight, ShieldCheck, Truck, MessageCircle, Lock, ShoppingBag } from "lucide-react";
 import { Reveal } from "@/components/reveal";
-import { PHARMA_OPCOES, type Preco, type ProdutoId, asset } from "@/data/produtos";
+import { PHARMA_EMAIL, PHARMA_OPCOES, type Preco, type ProdutoId, asset } from "@/data/produtos";
 
 export const NAV = [
   { href: "/#produtos", label: "Produtos" },
@@ -282,7 +282,7 @@ export function TrustStrip({ dark = false }: { dark?: boolean }) {
 }
 
 /* ---------- Rodapé (dourado sobre azul — expressão noturna) ---------- */
-export function Footer() {
+export function Footer({ showPharmaEmail = false }: { showPharmaEmail?: boolean }) {
   return (
     <footer className="relative overflow-hidden bg-vk-azul text-vk-creme">
       <img
@@ -364,6 +364,11 @@ export function Footer() {
             </a>
           </p>
         </div>
+        {showPharmaEmail && (
+          <p className="mt-3 text-center text-[11px] text-vk-creme/55 md:text-left">
+            Contato Vivka Pharma: <a className="underline underline-offset-2 hover:text-vk-dourado" href={`mailto:${PHARMA_EMAIL}`}>{PHARMA_EMAIL}</a>
+          </p>
+        )}
       </div>
     </footer>
   );
