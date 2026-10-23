@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FileUp, Headset, MailCheck, PackageCheck } from "lucide-react";
 import { Footer, SiteHeader } from "@/components/vivka-ui";
-import { PHARMA_EMAIL, PHARMA_FORM_ENDPOINT, WHATSAPP_NUMBER, asset } from "@/data/produtos";
+import { PHARMA_EMAIL, PHARMA_FORM_ENDPOINT, asset, whatsappUrl } from "@/data/produtos";
 import { createPedido, newId, pharmaBackendEnabled, saveQuizLead, uploadPrescription, type LeadPayload } from "@/lib/pharma-backend";
 import { useHead } from "@/lib/head";
 
@@ -15,9 +15,7 @@ const FRETES = {
 } as const;
 const MARQUEE = ["Manipulação certificada", "Atendimento rápido", "Envio nacional", "Fórmula sob medida", "Resposta em até 24h úteis"];
 
-const WHATSAPP_FLOAT = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Oi tudo bom? Estava no site VIVKA PHARMA e gostaria de um orçamento.",
-)}`;
+const WHATSAPP_FLOAT = whatsappUrl("Oi tudo bom? Estava no site VIVKA PHARMA e gostaria de um orçamento.");
 
 function onlyDigits(v: string) {
   return v.replace(/\D/g, "");
@@ -140,7 +138,7 @@ export function PharmaPage() {
         </section>
       </main>
 
-      <Footer />
+      <Footer showPharmaEmail />
 
       <a
         href={WHATSAPP_FLOAT}
