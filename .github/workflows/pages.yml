@@ -29,6 +29,13 @@ jobs:
       - run: npx vite build --base=/
       # SPA: qualquer rota (/control, /night, /sac) cai no index.html
       - run: cp dist/index.html dist/404.html
+      # Rotas da Pharma retornam 200 tamb?m quando abertas diretamente.
+      - name: Publicar p?ginas diretas da Pharma
+        run: |
+          for route in pharma admin admin/login admin/pharma-pedidos admin/quiz; do
+            mkdir -p "dist/$route"
+            cp dist/index.html "dist/$route/index.html"
+          done
       - uses: actions/configure-pages@v5
         with:
           enablement: true
