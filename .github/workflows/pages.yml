@@ -32,7 +32,7 @@ jobs:
       # Rotas da Pharma retornam 200 tamb?m quando abertas diretamente.
       - name: Publicar p?ginas diretas da Pharma
         run: |
-          for route in pharma admin admin/login admin/pharma-pedidos admin/quiz; do
+          for route in pharma whatsapp admin admin/login admin/pharma-pedidos admin/quiz; do
             mkdir -p "dist/$route"
             cp dist/index.html "dist/$route/index.html"
           done

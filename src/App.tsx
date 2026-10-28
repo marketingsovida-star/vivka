@@ -1,3 +1,4 @@
+import PharmaWhatsAppRedirect from "@/components/PharmaWhatsAppRedirect";
 import { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { HomePage } from "@/pages/home";
@@ -37,7 +38,8 @@ export function App() {
         <Route path="/night" element={<NightPage />} />
         <Route path="/sac" element={<SacPage />} />
         <Route path="/loja" element={<LojaPage />} />
-        <Route path="/pharma" element={<PharmaPage />} />
+        <Route path="/whatsapp" element={<PharmaWhatsAppRedirect />} />
+          <Route path="/pharma" element={<PharmaPage />} />
         <Route path="/admin" element={<Navigate to="/admin/quiz" replace />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/quiz" element={<AdminQuizPage />} />
