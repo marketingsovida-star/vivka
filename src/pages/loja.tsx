@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Candy, Check, MoonStar, Plus, ShieldCheck, SunMoon, Truck } from "lucide-react";
+import { ArrowRight, Check, Plus, ShieldCheck, SunMoon, Truck } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { BTN, Eyebrow, Footer, HeaderRow, MOMENTO_ICONS, PharmaSection, SiteHeader, THEME } from "@/components/vivka-ui";
 import { PRODUTOS, KIT_PRECOS, asset, type Preco, type Produto, type ProdutoId } from "@/data/produtos";
@@ -158,6 +158,7 @@ export function LojaPage() {
         </div>
         <Vitrine />
         <Comprar />
+        <KitDiaENoite />
         <PharmaSection />
         <Diferenciais />
         <FAQ />
@@ -211,7 +212,7 @@ function HeroCarousel() {
                     {s.sub}
                   </p>
                   <div className="mt-9">
-                    <a href="#comprar" className={`group ${s.dark ? BTN.gold : BTN.primary}`}>
+                    <a href={s.id === "kit" ? "#kit-dia-e-noite" : "#comprar"} className={`group ${s.dark ? BTN.gold : BTN.primary}`}>
                       {s.cta}
                       <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                     </a>
@@ -236,7 +237,7 @@ function HeroCarousel() {
                 <h1 className={`mt-6 text-5xl font-medium leading-[1.08] ${s.dark ? "text-vk-creme" : "text-vk-azul"}`}>{s.titulo}</h1>
                 <p className={`mt-6 text-base leading-7 ${s.dark ? "text-vk-creme/80" : "text-vk-tinta/80"}`}>{s.sub}</p>
                 <div className="mt-8">
-                  <a href="#comprar" className={`group w-full ${s.dark ? BTN.gold : BTN.primary}`}>
+                  <a href={s.id === "kit" ? "#kit-dia-e-noite" : "#comprar"} className={`group w-full ${s.dark ? BTN.gold : BTN.primary}`}>
                     {s.cta}
                     <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                   </a>
@@ -331,7 +332,7 @@ function VitrineCard({ produto }: { produto: Produto }) {
         loading="lazy"
         className="h-36 w-auto shrink-0 object-contain"
       />
-      <div className="flex-1">
+      <div className="min-w-0 flex-1">
         <Eyebrow rule={t.dot} className="justify-center text-vk-azul sm:justify-start">
           <span className="flex items-center gap-2">
             <Icon className="h-4 w-4" aria-hidden="true" /> {produto.momentoLabel}
@@ -355,7 +356,7 @@ function VitrineCard({ produto }: { produto: Produto }) {
         ) : (
           <p className="mt-4 text-sm text-vk-tinta/70">{produto.tagline}</p>
         )}
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           {p && (
             <a href={p.link} target="_blank" rel="noreferrer" className={`flex-1 ${BTN.primary} min-h-11 px-5`}>
               Comprar 1 pote
@@ -372,59 +373,30 @@ function VitrineCard({ produto }: { produto: Produto }) {
 
 /* ---------- COMPRAR (seletor de quantidade) ---------- */
 function Comprar() {
-  const energyBoost = PRODUTOS["energy-boost"];
+  const produtos = [PRODUTOS.control, PRODUTOS.night, PRODUTOS["energy-boost"]];
   return (
-    <section id="comprar" className="scroll-mt-20 border-y border-vk-linha bg-vk-areia px-6 py-18 md:px-10 md:py-24">
+    <section id="comprar" aria-labelledby="comprar-titulo" className="scroll-mt-20 border-y border-vk-linha bg-vk-areia px-6 py-18 md:px-10 md:py-24">
       <div className="mx-auto max-w-7xl">
         <Reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow center className="text-vk-azul">
-            Escolha a quantidade
+            Produtos individuais
           </Eyebrow>
-          <h2 className="mt-3 text-4xl font-medium text-vk-azul md:text-5xl">Quanto mais, mais em conta.</h2>
+          <h2 id="comprar-titulo" className="mt-3 text-4xl font-medium text-vk-azul md:text-5xl">Quanto mais, mais em conta.</h2>
         </Reveal>
-        <div className="mt-12 grid items-start gap-6 md:grid-cols-2 xl:grid-cols-4">
-          <LojaCard
-            tag={PRODUTOS.control.momentoLabel}
-            icon={Candy}
-            accent="control"
-            nome="Control"
-            imagePrefix="control"
-            meta={`${PRODUTOS.control.apresentacao} · ${PRODUTOS.control.doses} · ${PRODUTOS.control.sabor}`}
-            precos={PRODUTOS.control.precos}
-            unidade={["pote", "potes"]}
-          />
-          <LojaCard
-            tag="Kit Dia + Noite"
-            icon={SunMoon}
-            nome="Dia + Noite"
-            sub="Control + Night"
-            imagePrefix="kit"
-            meta="1 Control 90 g + 1 Night 150 g por par"
-            precos={KIT_PRECOS}
-            unidade={["par", "pares"]}
-            baseUnit={parseBRL(PRODUTOS.control.precos[0].total) + parseBRL(PRODUTOS.night.precos[0].total)}
-            featured
-          />
-          <LojaCard
-            tag={PRODUTOS.night.momentoLabel}
-            icon={MoonStar}
-            accent="night"
-            nome="Night"
-            imagePrefix="night"
-            meta={`${PRODUTOS.night.apresentacao} · ${PRODUTOS.night.doses} · ${PRODUTOS.night.sabor}`}
-            precos={PRODUTOS.night.precos}
-            unidade={["pote", "potes"]}
-          />
-          <LojaCard
-            tag={energyBoost.momentoLabel}
-            icon={MOMENTO_ICONS[energyBoost.momento]}
-            accent={energyBoost.id}
-            nome={energyBoost.nome}
-            imagePrefix={energyBoost.id}
-            meta={`${energyBoost.apresentacao} · ${energyBoost.doses} · ${energyBoost.sabor}`}
-            precos={energyBoost.precos}
-            unidade={["pote", "potes"]}
-          />
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {produtos.map((produto) => (
+            <LojaCard
+              key={produto.id}
+              tag={produto.momentoLabel}
+              icon={MOMENTO_ICONS[produto.momento]}
+              accent={produto.id}
+              nome={produto.nome}
+              imagePrefix={produto.id}
+              meta={`${produto.apresentacao} · ${produto.doses} · ${produto.sabor}`}
+              precos={produto.precos}
+              unidade={["pote", "potes"]}
+            />
+          ))}
         </div>
 
         <div className="mx-auto mt-10 flex max-w-2xl flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-vk-tinta/60">
@@ -443,12 +415,43 @@ function Comprar() {
   );
 }
 
+function KitDiaENoite() {
+  return (
+    <section id="kit-dia-e-noite" aria-labelledby="kit-dia-e-noite-titulo" className="scroll-mt-20 px-6 py-16 md:px-10 md:py-24">
+      <div className="mx-auto grid max-w-7xl items-center gap-8 rounded-3xl bg-vk-azul p-5 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:gap-14 lg:p-12">
+        <div className="text-vk-creme">
+          <h2 id="kit-dia-e-noite-titulo" className="text-4xl font-medium md:text-5xl">Kit Dia + Noite</h2>
+          <p className="mt-4 max-w-md text-base leading-7 text-vk-creme/85 md:text-lg">
+            Control para a tarde e Night para a noite. Escolha 1, 2 ou 4 pares e economize em relação aos potes avulsos.
+          </p>
+          <img
+            src={asset("/photos/momentos.webp")}
+            alt="Vivka Control e Vivka Night, os dois produtos do kit"
+            loading="lazy"
+            className="mt-6 aspect-[16/10] w-full rounded-2xl object-cover md:mt-8"
+          />
+        </div>
+        <LojaCard
+          tag="Control + Night"
+          icon={SunMoon}
+          nome="Dia + Noite"
+          imagePrefix="kit"
+          meta="1 Control 90 g + 1 Night 150 g por par"
+          precos={KIT_PRECOS}
+          unidade={["par", "pares"]}
+          baseUnit={parseBRL(PRODUTOS.control.precos[0].total) + parseBRL(PRODUTOS.night.precos[0].total)}
+          featured
+        />
+      </div>
+    </section>
+  );
+}
+
 function LojaCard({
   tag,
   icon: Icon,
   accent,
   nome,
-  sub,
   imagePrefix,
   meta,
   precos,
@@ -460,7 +463,6 @@ function LojaCard({
   icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
   accent?: ProdutoId;
   nome: string;
-  sub?: string;
   imagePrefix: string;
   meta: string;
   precos: Preco[];
@@ -486,11 +488,6 @@ function LojaCard({
         featured ? "border-vk-azul ring-4 ring-vk-dourado/35" : "border-vk-linha"
       }`}
     >
-      {featured && (
-        <span className="label-caps absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-vk-amarelo px-4 py-1 text-[11px] text-vk-azul">
-          Mais escolhido
-        </span>
-      )}
       <Eyebrow rule={dot} className="text-vk-azul">
         <span className="flex items-center gap-2">
           <Icon className="h-4 w-4" aria-hidden={true} /> {tag}
@@ -508,7 +505,6 @@ function LojaCard({
       <h3 className="mt-4 text-2xl font-medium text-vk-azul">
         Vivka <span className={mark}>{nome}</span>
       </h3>
-      {sub && <p className="mt-1 text-sm text-vk-tinta/70">{sub}</p>}
       <p className="label-caps mt-2 text-vk-tinta/55">{meta}</p>
 
       <div className="mt-5">
@@ -518,6 +514,7 @@ function LojaCard({
             <button
               key={tier.qtd}
               type="button"
+              aria-pressed={i === idx}
               onClick={() => setI(idx)}
               className={`min-h-10 rounded-full border px-2 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-vk-dourado ${
                 i === idx ? "border-vk-azul bg-vk-azul text-vk-creme" : "border-vk-linha text-vk-tinta hover:bg-vk-areia"
