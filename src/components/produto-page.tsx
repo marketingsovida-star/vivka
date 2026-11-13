@@ -1,7 +1,7 @@
-import { ArrowDown, Check, Clock, MessageCircle, ShoppingBag } from "lucide-react";
+import { Check, Clock, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Reveal } from "@/components/reveal";
-import { BTN, Eyebrow, Footer, MOMENTO_ICONS, PriceCards, ProductTopBar, THEME, TrustStrip } from "@/components/vivka-ui";
+import { Eyebrow, Footer, MOMENTO_ICONS, PriceCards, ProductTopBar, THEME, TrustStrip } from "@/components/vivka-ui";
 import { type Produto, asset, AVISO_USO, BASE_URL } from "@/data/produtos";
 import { useHead } from "@/lib/head";
 
@@ -41,7 +41,7 @@ export function ProdutoPage({ produto, detalharAtivos = false }: { produto: Prod
       <ProductTopBar />
       <main>
         {/* VENDA — título/descritivo centralizado (padrão das páginas da Galli) */}
-        <section id={precoInicial && !detalharAtivos ? "precos" : undefined} className="px-6 py-14 md:px-10 md:py-20">
+        <section id={precoInicial ? "precos" : undefined} className="px-6 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-7xl">
             <Reveal immediate className="mx-auto max-w-2xl text-center">
               <Eyebrow center rule={t.dot} className="text-vk-azul">
@@ -69,7 +69,7 @@ export function ProdutoPage({ produto, detalharAtivos = false }: { produto: Prod
                 </div>
               )}
             </Reveal>
-            {(detalharAtivos || !precoInicial) && (
+            {!precoInicial && (
               <div className="mx-auto mt-10 grid max-w-4xl overflow-hidden rounded-3xl border border-vk-linha bg-white shadow-[var(--shadow-card)] md:grid-cols-2">
                 <div className="grid place-items-center bg-[#f5f5f7]">
                   <img src={asset(produto.image)} alt={produto.imageAlt} className="h-72 w-full object-contain md:h-96" fetchPriority="high" />
@@ -77,29 +77,19 @@ export function ProdutoPage({ produto, detalharAtivos = false }: { produto: Prod
                 <div className="flex flex-col items-start justify-center p-6 sm:p-9 md:p-10">
                   <h2 className="text-2xl text-vk-azul">{produto.frase}</h2>
                   <p className="mt-4 text-base leading-7 text-vk-tinta/80">{produto.descricao}</p>
-                  {detalharAtivos && (
-                    <Link to={`${produto.slug}#ativos`} className={`mt-6 ${BTN.wine}`}>
-                      Conhecer os ativos <ArrowDown className="h-4 w-4" aria-hidden="true" />
-                    </Link>
-                  )}
-                  <Link to={precoInicial ? `${produto.slug}#precos` : "/sac"} className="mt-5 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-vk-azul underline decoration-vk-azul/40 underline-offset-4 hover:decoration-current">
-                    {precoInicial ? (
-                      <><ShoppingBag className="h-4 w-4" aria-hidden="true" /> Ver opções de compra</>
-                    ) : (
-                      <><MessageCircle className="h-4 w-4" aria-hidden="true" /> Consultar disponibilidade</>
-                    )}
+                  <Link to="/sac" className="mt-5 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-vk-azul underline decoration-vk-azul/40 underline-offset-4 hover:decoration-current">
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" /> Consultar disponibilidade
                   </Link>
                 </div>
               </div>
             )}
             {precoInicial && (
               <>
-                <div id={detalharAtivos ? "precos" : undefined} className="mt-10 scroll-mt-20">
+                <div className="mt-10">
                   <PriceCards
                     precos={produto.precos}
                     produtoNome={`Vivka ${produto.nome}`}
                     imagePrefix={produto.id}
-                    productImage={produto.id === "energy-boost" ? { src: produto.image, alt: produto.imageAlt } : undefined}
                     accent={produto.id}
                   />
                 </div>

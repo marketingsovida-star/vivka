@@ -323,14 +323,13 @@ function VitrineCard({ produto }: { produto: Produto }) {
   const t = THEME[produto.id];
   const Icon = MOMENTO_ICONS[produto.momento];
   const p = produto.precos[0];
-  const useProductImage = produto.id === "energy-boost" || !p;
   return (
     <Reveal className="flex flex-col items-center gap-6 rounded-3xl border border-vk-linha bg-white p-6 text-center shadow-[var(--shadow-card)] sm:flex-row sm:text-left md:p-8">
       <img
-        src={asset(useProductImage ? produto.image : `/products/${produto.id}-1.webp`)}
+        src={asset(p ? `/products/${produto.id}-1.webp` : produto.image)}
         alt={produto.imageAlt}
         loading="lazy"
-        className={`h-36 w-auto shrink-0 object-contain ${useProductImage ? "rounded-xl" : ""}`}
+        className="h-36 w-auto shrink-0 object-contain"
       />
       <div className="flex-1">
         <Eyebrow rule={t.dot} className="justify-center text-vk-azul sm:justify-start">
@@ -422,7 +421,6 @@ function Comprar() {
             accent={energyBoost.id}
             nome={energyBoost.nome}
             imagePrefix={energyBoost.id}
-            productImage={{ src: energyBoost.image, alt: energyBoost.imageAlt }}
             meta={`${energyBoost.apresentacao} · ${energyBoost.doses} · ${energyBoost.sabor}`}
             precos={energyBoost.precos}
             unidade={["pote", "potes"]}
@@ -452,7 +450,6 @@ function LojaCard({
   nome,
   sub,
   imagePrefix,
-  productImage,
   meta,
   precos,
   unidade,
@@ -465,7 +462,6 @@ function LojaCard({
   nome: string;
   sub?: string;
   imagePrefix: string;
-  productImage?: { src: string; alt: string };
   meta: string;
   precos: Preco[];
   unidade: [string, string];
@@ -503,9 +499,9 @@ function LojaCard({
 
       <div className="mt-4 flex h-40 items-center justify-center">
         <img
-          src={asset(productImage?.src ?? `/products/${imagePrefix}-${p.qtd}.webp`)}
-          alt={productImage?.alt ?? `Vivka ${nome} — ${label}`}
-          className={`max-h-40 w-auto max-w-full object-contain ${productImage ? "rounded-xl" : ""}`}
+          src={asset(`/products/${imagePrefix}-${p.qtd}.webp`)}
+          alt={`Vivka ${nome} — ${label}`}
+          className="max-h-40 w-auto max-w-full object-contain"
         />
       </div>
 

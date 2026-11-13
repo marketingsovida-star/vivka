@@ -103,7 +103,6 @@ export const BTN = {
   outline: `${BTN_BASE} border border-vk-azul text-vk-azul hover:bg-vk-areia focus-visible:ring-vk-azul`,
   yellow: `${BTN_BASE} bg-vk-amarelo text-vk-azul hover:bg-vk-mel focus-visible:ring-vk-amarelo`,
   gold: `${BTN_BASE} bg-vk-dourado text-vk-azul hover:bg-[#d8a63f] focus-visible:ring-vk-dourado`,
-  wine: `${BTN_BASE} bg-vk-vinho text-vk-creme hover:bg-vk-vinho/90 focus-visible:ring-vk-vinho`,
   light: `${BTN_BASE} bg-vk-creme text-vk-azul hover:bg-white focus-visible:ring-vk-creme`,
   lightOutline: `${BTN_BASE} border border-vk-creme/60 text-vk-creme hover:bg-vk-creme/10 focus-visible:ring-vk-creme`,
 };
@@ -176,13 +175,11 @@ export function PriceCards({
   precos,
   produtoNome,
   imagePrefix,
-  productImage,
   accent,
 }: {
   precos: Preco[];
   produtoNome: string;
   imagePrefix: string;
-  productImage?: { src: string; alt: string };
   accent?: ProdutoId;
 }) {
   const dot = accent ? THEME[accent].dot : "bg-vk-dourado";
@@ -205,10 +202,10 @@ export function PriceCards({
             )}
             <div className="mb-5 flex h-40 items-end justify-center">
               <img
-                src={asset(productImage?.src ?? `/products/${imagePrefix}-${p.qtd}.webp`)}
-                alt={productImage?.alt ?? `${produtoNome} — ${p.label}`}
+                src={asset(`/products/${imagePrefix}-${p.qtd}.webp`)}
+                alt={`${produtoNome} — ${p.label}`}
                 loading="lazy"
-                className={`max-h-40 w-auto max-w-full object-contain ${productImage ? "rounded-xl" : ""}`}
+                className="max-h-40 w-auto max-w-full object-contain"
               />
             </div>
             <p className="label-caps flex items-center gap-2 text-vk-azul">
