@@ -1,13 +1,14 @@
-import { Candy, Check, Clock, MoonStar } from "lucide-react";
+import { ArrowDown, Check, Clock, MessageCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Reveal } from "@/components/reveal";
-import { Eyebrow, Footer, PriceCards, ProductTopBar, THEME, TrustStrip } from "@/components/vivka-ui";
-import { type Produto, AVISO_USO, BASE_URL } from "@/data/produtos";
+import { BTN, Eyebrow, Footer, MOMENTO_ICONS, PriceCards, ProductTopBar, THEME, TrustStrip } from "@/components/vivka-ui";
+import { type Produto, asset, AVISO_USO, BASE_URL } from "@/data/produtos";
 import { useHead } from "@/lib/head";
 
-export function ProdutoPage({ produto }: { produto: Produto }) {
+export function ProdutoPage({ produto, detalharAtivos = false }: { produto: Produto; detalharAtivos?: boolean }) {
   const t = THEME[produto.id];
-  const MomentoIcon = produto.id === "control" ? Candy : MoonStar;
-  const precoMin = produto.precos[0].total.replace(".", "").replace(",", ".");
+  const MomentoIcon = MOMENTO_ICONS[produto.momento];
+  const precoInicial = produto.precos[0];
 
   useHead({
     title: `Vivka ${produto.nome} — ${produto.tagline.replace(/\.$/, "")} | Vivka`,
@@ -22,14 +23,16 @@ export function ProdutoPage({ produto }: { produto: Produto }) {
       description: produto.descricao,
       image: `${BASE_URL}${produto.image}`,
       brand: { "@type": "Brand", name: "Vivka" },
-      offers: {
-        "@type": "AggregateOffer",
-        priceCurrency: "BRL",
-        lowPrice: precoMin,
-        offerCount: produto.precos.length,
-        availability: "https://schema.org/InStock",
-        url: `${BASE_URL}${produto.slug}`,
-      },
+      ...(precoInicial && {
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "BRL",
+          lowPrice: precoInicial.total.replace(".", "").replace(",", "."),
+          offerCount: produto.precos.length,
+          availability: "https://schema.org/InStock",
+          url: `${BASE_URL}${produto.slug}`,
+        },
+      }),
     },
   });
 
@@ -38,7 +41,7 @@ export function ProdutoPage({ produto }: { produto: Produto }) {
       <ProductTopBar />
       <main>
         {/* VENDA — título/descritivo centralizado (padrão das páginas da Galli) */}
-        <section id="precos" className="px-6 py-14 md:px-10 md:py-20">
+        <section id={precoInicial ? "precos" : undefined} className="px-6 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-7xl">
             <Reveal immediate className="mx-auto max-w-2xl text-center">
               <Eyebrow center rule={t.dot} className="text-vk-azul">
@@ -53,26 +56,50 @@ export function ProdutoPage({ produto }: { produto: Produto }) {
               <p className="label-caps mt-4 text-vk-tinta/55">
                 {produto.apresentacao} · {produto.doses} · {produto.sabor}
               </p>
-              <div className="mt-6 flex flex-wrap justify-center gap-2">
-                {produto.beneficios.map((b) => (
-                  <span
-                    key={b}
-                    className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${t.chip}`}
-                  >
-                    <Check className="h-3.5 w-3.5" aria-hidden="true" /> {b}
-                  </span>
-                ))}
-              </div>
+              {produto.beneficios.length > 0 && (
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                  {produto.beneficios.map((b) => (
+                    <span
+                      key={b}
+                      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${t.chip}`}
+                    >
+                      <Check className="h-3.5 w-3.5" aria-hidden="true" /> {b}
+                    </span>
+                  ))}
+                </div>
+              )}
             </Reveal>
-            <div className="mt-10">
-              <PriceCards precos={produto.precos} produtoNome={`Vivka ${produto.nome}`} imagePrefix={produto.id} accent={produto.id} />
-            </div>
-            <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-vk-tinta/55">
-              Compra segura pelo checkout da Payt. No cartão, parcele em até 12x.
-            </p>
-            <div className="mt-12">
-              <TrustStrip />
-            </div>
+            {precoInicial ? (
+              <>
+                <div className="mt-10">
+                  <PriceCards precos={produto.precos} produtoNome={`Vivka ${produto.nome}`} imagePrefix={produto.id} accent={produto.id} />
+                </div>
+                <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-vk-tinta/55">
+                  Compra segura pelo checkout da Payt. No cartão, parcele em até 12x.
+                </p>
+                <div className="mt-12">
+                  <TrustStrip />
+                </div>
+              </>
+            ) : (
+              <div className="mx-auto mt-10 grid max-w-4xl overflow-hidden rounded-3xl border border-vk-linha bg-white shadow-[var(--shadow-card)] md:grid-cols-2">
+                <div className="grid place-items-center bg-[#f5f5f7]">
+                  <img src={asset(produto.image)} alt={produto.imageAlt} className="h-72 w-full object-contain md:h-96" fetchPriority="high" />
+                </div>
+                <div className="flex flex-col items-start justify-center p-6 sm:p-9 md:p-10">
+                  <h2 className="text-2xl text-vk-azul">{produto.frase}</h2>
+                  <p className="mt-4 text-base leading-7 text-vk-tinta/80">{produto.descricao}</p>
+                  {detalharAtivos && (
+                    <Link to={`${produto.slug}#ativos`} className={`mt-6 ${BTN.wine}`}>
+                      Conhecer os ativos <ArrowDown className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  )}
+                  <Link to="/sac" className="mt-5 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-vk-azul underline decoration-vk-azul/40 underline-offset-4 hover:decoration-current">
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" /> Consultar disponibilidade
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
@@ -85,6 +112,7 @@ export function ProdutoPage({ produto }: { produto: Produto }) {
               </Eyebrow>
               <h2 className="mt-3 text-3xl font-medium text-vk-azul md:text-4xl">Simples na sua rotina.</h2>
               <p className="mt-5 max-w-md text-base leading-7 text-vk-tinta/80">{produto.modoUso}</p>
+              {produto.conservacao && <p className="mt-3 max-w-md text-sm leading-6 text-vk-tinta/75">{produto.conservacao}</p>}
               <p className="mt-6 max-w-md text-[11px] font-medium uppercase leading-5 tracking-[0.12em] text-vk-tinta/60">
                 {AVISO_USO}
               </p>
@@ -106,7 +134,7 @@ export function ProdutoPage({ produto }: { produto: Produto }) {
               <h2 className="mt-3 text-3xl font-medium text-vk-azul md:text-4xl">O que há em cada dose.</h2>
               <div className="mt-7 overflow-hidden rounded-2xl border border-vk-linha bg-white">
                 <div className={`label-caps grid grid-cols-[1fr_auto] px-5 py-3 text-[11px] ${t.tableHead}`}>
-                  <span>Ativo</span>
+                  <span>Ingrediente</span>
                   <span>Por dose</span>
                 </div>
                 {produto.composicao.map((item, i) => (
@@ -121,17 +149,39 @@ export function ProdutoPage({ produto }: { produto: Produto }) {
                   </div>
                 ))}
               </div>
-              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-                {produto.ativosDestaque.map((a) => (
-                  <li key={a.nome} className="rounded-2xl border border-vk-linha bg-vk-creme p-4">
-                    <p className="text-sm font-semibold text-vk-azul">{a.nome}</p>
-                    <p className="mt-1 text-sm leading-6 text-vk-tinta/70">{a.beneficio}</p>
-                  </li>
-                ))}
-              </ul>
+              {!detalharAtivos && (
+                <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {produto.ativosDestaque.map((a) => (
+                    <li key={a.nome} className="rounded-2xl border border-vk-linha bg-vk-creme p-4">
+                      <p className="text-sm font-semibold text-vk-azul">{a.nome}</p>
+                      <p className="mt-1 text-sm leading-6 text-vk-tinta/70">{a.beneficio}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </Reveal>
           </div>
         </section>
+        {detalharAtivos && (
+          <section id="ativos" className="scroll-mt-16 border-t border-vk-linha px-6 py-16 md:px-10 md:py-24">
+            <div className="mx-auto max-w-7xl">
+              <h2 className="text-3xl font-medium text-vk-azul md:text-4xl">O que cada ativo faz no organismo</h2>
+              <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {produto.ativosDestaque.map((ativo) => (
+                  <li key={ativo.nome} className="flex flex-col rounded-2xl border border-vk-linha bg-white p-6">
+                    <h3 className={`text-xl ${t.text}`}>{ativo.nome}</h3>
+                    <p className="mt-2 flex-1 text-sm leading-6 text-vk-tinta/80">{ativo.beneficio}</p>
+                    {ativo.referencia && (
+                      <a href={ativo.referencia} target="_blank" rel="noreferrer" aria-label={`Referência científica sobre ${ativo.nome}`} className={`mt-3 self-start py-1 text-xs font-medium underline underline-offset-4 ${t.text}`}>
+                        Referência científica
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </div>

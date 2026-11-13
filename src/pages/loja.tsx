@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Candy, Check, MoonStar, Plus, ShieldCheck, SunMoon, Truck } from "lucide-react";
 import { Reveal } from "@/components/reveal";
-import { BTN, Eyebrow, Footer, HeaderRow, PharmaSection, SiteHeader, THEME } from "@/components/vivka-ui";
+import { BTN, Eyebrow, Footer, HeaderRow, MOMENTO_ICONS, PharmaSection, SiteHeader, THEME } from "@/components/vivka-ui";
 import { PRODUTOS, KIT_PRECOS, asset, type Preco, type Produto } from "@/data/produtos";
 import { useHead } from "@/lib/head";
 
 const DESC =
-  "A loja oficial Vivka: Control para a tarde, Night para a noite e o kit Dia + Noite com os dois juntos. Compra segura pela Payt, em até 12x.";
+  "Na loja oficial Vivka, encontre Control, Night, o kit Dia + Noite e conheça o Energy Boost, pré-treino em pó sabor laranja.";
 
 const MARQUEE = ["Em pó, diluído na água", "Um para cada momento", "Fórmula declarada", "Cacau e laranja", "7 dias de garantia", "Até 12x no cartão"];
 
@@ -98,7 +98,7 @@ const FAQS = [
   },
   {
     q: "Quantas doses tem cada pote?",
-    a: "O Control vem em pote de 90 g (1 scoop por dose) e o Night em pote de 150 g (30 doses de 5 g).",
+    a: "O Control vem em pote de 90 g (1 scoop por dose), o Night em pote de 150 g (30 doses de 5 g) e o Energy Boost em pote de 225 g (30 doses de 7,5 g).",
   },
   {
     q: "Como funciona a compra?",
@@ -121,7 +121,7 @@ const fmtBRL = (n: number) => n.toLocaleString("pt-BR", { minimumFractionDigits:
 
 export function LojaPage() {
   useHead({
-    title: "Loja Vivka — Control, Night e Kit Dia + Noite",
+    title: "Loja Vivka — Control, Night, Energy Boost e Kit Dia + Noite",
     description: DESC,
     path: "/loja",
     ogImage: "/og-image.jpg",
@@ -309,9 +309,10 @@ function Vitrine() {
             Prefere experimentar? Leve um pote do produto que combina com o seu momento.
           </p>
         </Reveal>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
+        <div className="mt-12 grid gap-6 md:grid-cols-4 md:[&>*]:col-span-2 md:[&>*:last-child]:col-start-2">
           <VitrineCard produto={PRODUTOS.control} />
           <VitrineCard produto={PRODUTOS.night} />
+          <VitrineCard produto={PRODUTOS["energy-boost"]} />
         </div>
       </div>
     </section>
@@ -320,11 +321,16 @@ function Vitrine() {
 
 function VitrineCard({ produto }: { produto: Produto }) {
   const t = THEME[produto.id];
-  const Icon = produto.id === "control" ? Candy : MoonStar;
+  const Icon = MOMENTO_ICONS[produto.momento];
   const p = produto.precos[0];
   return (
     <Reveal className="flex flex-col items-center gap-6 rounded-3xl border border-vk-linha bg-white p-6 text-center shadow-[var(--shadow-card)] sm:flex-row sm:text-left md:p-8">
-      <img src={asset(`/products/${produto.id}-1.webp`)} alt={`Vivka ${produto.nome}`} className="h-36 w-auto shrink-0 object-contain" />
+      <img
+        src={asset(p ? `/products/${produto.id}-1.webp` : produto.image)}
+        alt={produto.imageAlt}
+        loading="lazy"
+        className={`h-36 w-auto shrink-0 object-contain ${p ? "" : "rounded-xl"}`}
+      />
       <div className="flex-1">
         <Eyebrow rule={t.dot} className="justify-center text-vk-azul sm:justify-start">
           <span className="flex items-center gap-2">
@@ -337,17 +343,25 @@ function VitrineCard({ produto }: { produto: Produto }) {
         <p className="label-caps mt-2 text-vk-tinta/55">
           {produto.apresentacao} · {produto.doses} · {produto.sabor}
         </p>
-        <div className="mt-4 flex items-baseline justify-center gap-1 sm:justify-start">
-          <span className="text-sm text-vk-tinta/60">R$</span>
-          <span className="font-display text-4xl font-medium text-vk-azul">{p.total}</span>
-          <span className="ml-1 text-sm text-vk-tinta/60">/ pote</span>
-        </div>
-        <p className="mt-1 text-sm text-vk-tinta/70">ou {p.parcela}</p>
+        {p ? (
+          <>
+            <div className="mt-4 flex items-baseline justify-center gap-1 sm:justify-start">
+              <span className="text-sm text-vk-tinta/60">R$</span>
+              <span className="font-display text-4xl font-medium text-vk-azul">{p.total}</span>
+              <span className="ml-1 text-sm text-vk-tinta/60">/ pote</span>
+            </div>
+            <p className="mt-1 text-sm text-vk-tinta/70">ou {p.parcela}</p>
+          </>
+        ) : (
+          <p className="mt-4 text-sm text-vk-tinta/70">{produto.tagline}</p>
+        )}
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-          <a href={p.link} target="_blank" rel="noreferrer" className={`flex-1 ${BTN.primary} min-h-11 px-5`}>
-            Comprar 1 pote
-          </a>
-          <Link to={produto.slug} className={`${BTN.outline} min-h-11 px-5`}>
+          {p && (
+            <a href={p.link} target="_blank" rel="noreferrer" className={`flex-1 ${BTN.primary} min-h-11 px-5`}>
+              Comprar 1 pote
+            </a>
+          )}
+          <Link to={produto.slug} aria-label={`Ver detalhes de Vivka ${produto.nome}`} className={`${BTN.outline} min-h-11 px-5`}>
             Ver detalhes
           </Link>
         </div>

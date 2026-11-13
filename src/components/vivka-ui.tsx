@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BadgeCheck, ChevronRight, ShieldCheck, Truck, MessageCircle, Lock, ShoppingBag } from "lucide-react";
+import { ArrowRight, BadgeCheck, Candy, ChevronRight, ShieldCheck, Truck, MessageCircle, Lock, MoonStar, ShoppingBag, Zap } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { PHARMA_EMAIL, PHARMA_OPCOES, type Preco, type ProdutoId, asset } from "@/data/produtos";
 
@@ -48,7 +48,20 @@ export const THEME: Record<
     check: "bg-vk-azul text-vk-dourado",
     tableHead: "bg-vk-azul text-vk-dourado",
   },
+  "energy-boost": {
+    bg: "bg-vk-vinho",
+    text: "text-vk-vinho",
+    dot: "bg-vk-vinho",
+    mark: "text-vk-vinho",
+    btn: "bg-vk-vinho text-vk-creme hover:bg-vk-vinho/90",
+    ring: "focus-visible:ring-vk-vinho",
+    chip: "border border-vk-vinho/20 bg-vk-vinho/5 text-vk-vinho",
+    check: "bg-vk-vinho text-vk-dourado",
+    tableHead: "bg-vk-vinho text-vk-creme",
+  },
 };
+
+export const MOMENTO_ICONS = { tarde: Candy, noite: MoonStar, treino: Zap };
 
 /* ---------- Logo (wordmark desenhado — só como imagem) ---------- */
 export function Logo({
@@ -90,6 +103,7 @@ export const BTN = {
   outline: `${BTN_BASE} border border-vk-azul text-vk-azul hover:bg-vk-areia focus-visible:ring-vk-azul`,
   yellow: `${BTN_BASE} bg-vk-amarelo text-vk-azul hover:bg-vk-mel focus-visible:ring-vk-amarelo`,
   gold: `${BTN_BASE} bg-vk-dourado text-vk-azul hover:bg-[#d8a63f] focus-visible:ring-vk-dourado`,
+  wine: `${BTN_BASE} bg-vk-vinho text-vk-creme hover:bg-vk-vinho/90 focus-visible:ring-vk-vinho`,
   light: `${BTN_BASE} bg-vk-creme text-vk-azul hover:bg-white focus-visible:ring-vk-creme`,
   lightOutline: `${BTN_BASE} border border-vk-creme/60 text-vk-creme hover:bg-vk-creme/10 focus-visible:ring-vk-creme`,
 };

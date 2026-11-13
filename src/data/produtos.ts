@@ -55,15 +55,15 @@ export type Preco = {
 
 export type ItemComposicao = { nome: string; qtd: string };
 
-export type ProdutoId = "control" | "night";
+export type ProdutoId = "control" | "night" | "energy-boost";
 
 export type Produto = {
   id: ProdutoId;
   slug: string;
   nome: string;
   /** Cor de expressão do produto no MIV. */
-  cor: "amarelo" | "azul";
-  momento: "tarde" | "noite";
+  cor: "amarelo" | "azul" | "vinho";
+  momento: "tarde" | "noite" | "treino";
   momentoLabel: string; // "Para a sua tarde"
   tagline: string; // frase do rótulo
   frase: string; // frase do MIV (p.6)
@@ -73,12 +73,13 @@ export type Produto = {
   sabor: string;
   quando: string; // "Logo após o almoço"
   modoUso: string;
+  conservacao?: string;
   beneficios: string[];
-  ativosDestaque: { nome: string; beneficio: string }[];
+  ativosDestaque: { nome: string; beneficio: string; referencia?: string }[];
   composicao: ItemComposicao[];
   precos: Preco[];
   image: string;
-  imageCutout: string;
+  imageCutout?: string;
   imageAlt: string;
 };
 
@@ -214,6 +215,75 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
     image: "/products/night-card.webp",
     imageCutout: "/products/night-cutout.webp",
     imageAlt: "Vivka Night — pote de 150 g com rótulo azul-noite e dourado",
+  },
+  "energy-boost": {
+    id: "energy-boost",
+    slug: "/energy-boost",
+    nome: "Energy Boost",
+    cor: "vinho",
+    momento: "treino",
+    momentoLabel: "Para o seu treino",
+    tagline: "Pré-treino com creatina, beta-alanina e taurina.",
+    frase: "Conheça a fórmula",
+    descricao:
+      "Vivka Energy Boost reúne creatina monohidratada, beta-alanina, taurina, TCM, magnésio, zinco e vitamina B6 em um pré-treino em pó para diluir em água.",
+    apresentacao: "225 g em pó",
+    doses: "30 doses de 7,5 g",
+    sabor: "Sabor laranja",
+    quando: "20 a 30 minutos antes do treino",
+    modoUso: "Dilua 1 dose de 7,5 g em 200 ml de água e tome de 20 a 30 minutos antes do treino, conforme indicado no rótulo.",
+    conservacao: "Conserve ao abrigo da luz, do calor e da umidade.",
+    beneficios: [],
+    ativosDestaque: [
+      {
+        nome: "Creatina monohidratada",
+        beneficio: "No músculo, parte da creatina é armazenada como fosfocreatina, uma reserva usada para repor energia em esforços breves e intensos, como uma série de musculação.",
+        referencia: "https://ods.od.nih.gov/factsheets/ExerciseAndAthleticPerformance-HealthProfessional/",
+      },
+      {
+        nome: "Beta-alanina",
+        beneficio: "É usada pelo organismo para formar carnosina. Nos músculos, a carnosina ajuda a amortecer a queda do pH que ocorre durante esforços intensos.",
+        referencia: "https://pubmed.ncbi.nlm.nih.gov/16868650/",
+      },
+      {
+        nome: "Taurina",
+        beneficio: "Está naturalmente presente nos músculos. Em estudos de laboratório com fibras musculares humanas, a taurina participa da regulação do cálcio envolvido na contração.",
+        referencia: "https://pubmed.ncbi.nlm.nih.gov/25123198/",
+      },
+      {
+        nome: "TCM",
+        beneficio: "Os triglicerídeos de cadeia média são gorduras que o organismo pode usar como fonte de energia.",
+        referencia: "https://pubmed.ncbi.nlm.nih.gov/1992055/",
+      },
+      {
+        nome: "Magnésio dimalato",
+        beneficio: "É uma forma de magnésio, mineral que participa do metabolismo energético e do funcionamento dos músculos.",
+        referencia: "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/",
+      },
+      {
+        nome: "Zinco bisglicinato",
+        beneficio: "É uma forma de zinco ligada à glicina. O zinco participa da síntese de proteínas e de reações que dependem de enzimas.",
+        referencia: "https://ods.od.nih.gov/factsheets/Zinc-HealthProfessional/",
+      },
+      {
+        nome: "Vitamina B6",
+        beneficio: "Participa de reações que ajudam o organismo a metabolizar aminoácidos, os componentes das proteínas, e a utilizar carboidratos e gorduras.",
+        referencia: "https://ods.od.nih.gov/factsheets/VitaminB6-HealthProfessional/",
+      },
+    ],
+    composicao: [
+      { nome: "Creatina monohidratada", qtd: "3.000 mg" },
+      { nome: "Beta-alanina", qtd: "1.000 mg" },
+      { nome: "Taurina", qtd: "1.000 mg" },
+      { nome: "TCM", qtd: "1.000 mg" },
+      { nome: "Magnésio dimalato", qtd: "200 mg" },
+      { nome: "Zinco bisglicinato", qtd: "30 mg" },
+      { nome: "Vitamina B6", qtd: "20 mg" },
+      { nome: "Fresh Drink Laranja", qtd: "q.s.p. 1 dose" },
+    ],
+    precos: [],
+    image: "/products/energy-boost-card.webp",
+    imageAlt: "Pote preto de 225 g com faixa vinho, raio dourado e rótulo Vivka Pump",
   },
 };
 

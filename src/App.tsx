@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-route
 import { HomePage } from "@/pages/home";
 import { ControlPage } from "@/pages/control";
 import { NightPage } from "@/pages/night";
+import { EnergyBoostPage } from "@/pages/energy-boost";
 import { SacPage } from "@/pages/sac";
 import { LojaPage } from "@/pages/loja";
 import { PharmaPage } from "@/pages/pharma";
@@ -36,6 +37,7 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/control" element={<ControlPage />} />
         <Route path="/night" element={<NightPage />} />
+        <Route path="/energy-boost" element={<EnergyBoostPage />} />
         <Route path="/sac" element={<SacPage />} />
         <Route path="/loja" element={<LojaPage />} />
         <Route path="/whatsapp" element={<PharmaWhatsAppRedirect />} />
