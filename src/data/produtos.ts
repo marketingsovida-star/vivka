@@ -5,7 +5,7 @@ export const BASE_URL = "https://vivka.com.br";
 
 /** Prefixa um caminho de /public com a base do Vite (ex.: "/vivka/" no GitHub Pages; "/" em domínio próprio). */
 /** Versão das imagens: troque ao substituir fotos/mockups para o navegador não usar a cópia antiga em cache. */
-export const ASSET_VERSION = "2026-10-22";
+export const ASSET_VERSION = "2026-11-13";
 export const asset = (p: string) =>
   `${import.meta.env.BASE_URL.replace(/\/$/, "")}${p}${/\.(webp|png|jpe?g|svg)$/i.test(p) ? `?v=${ASSET_VERSION}` : ""}`;
 
@@ -310,7 +310,7 @@ export const PRODUTOS: Record<ProdutoId, Produto> = {
       },
     ],
     image: "/products/energy-boost-card.webp",
-    imageAlt: "Pote preto de 225 g com faixa vinho, raio dourado e rótulo Vivka Pump",
+    imageAlt: "Pote preto de Vivka Energy Boost de 225 g com faixa vinho e raio dourado",
   },
 };
 
