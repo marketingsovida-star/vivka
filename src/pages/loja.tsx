@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Plus, ShieldCheck, SunMoon, Truck } from "lucide-react";
+import { ArrowRight, Check, Plus, ShieldCheck, Truck } from "lucide-react";
 import { Reveal } from "@/components/reveal";
-import { BTN, Eyebrow, Footer, HeaderRow, MOMENTO_ICONS, PharmaSection, SiteHeader, THEME } from "@/components/vivka-ui";
-import { PRODUTOS, KIT_PRECOS, asset, type Preco, type Produto, type ProdutoId } from "@/data/produtos";
+import { BTN, Eyebrow, Footer, HeaderRow, MOMENTO_ICONS, PharmaSection, PriceCards, SiteHeader, THEME } from "@/components/vivka-ui";
+import { PRODUTOS, KIT_PRECOS, asset, type Produto } from "@/data/produtos";
 import { useHead } from "@/lib/head";
 
 const DESC =
@@ -385,17 +385,7 @@ function Comprar() {
         </Reveal>
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {produtos.map((produto) => (
-            <LojaCard
-              key={produto.id}
-              tag={produto.momentoLabel}
-              icon={MOMENTO_ICONS[produto.momento]}
-              accent={produto.id}
-              nome={produto.nome}
-              imagePrefix={produto.id}
-              meta={`${produto.apresentacao} · ${produto.doses} · ${produto.sabor}`}
-              precos={produto.precos}
-              unidade={["pote", "potes"]}
-            />
+            <LojaCard key={produto.id} produto={produto} />
           ))}
         </div>
 
@@ -415,89 +405,54 @@ function Comprar() {
   );
 }
 
+const KIT_OFERTAS_LOJA = KIT_PRECOS.map((preco) => ({
+  ...preco,
+  label: preco.qtd === "1" ? "1 kit" : `${preco.qtd} kits`,
+}));
+
 function KitDiaENoite() {
   return (
     <section id="kit-dia-e-noite" aria-labelledby="kit-dia-e-noite-titulo" className="scroll-mt-20 px-6 py-16 md:px-10 md:py-24">
-      <div className="mx-auto grid max-w-7xl items-center gap-8 rounded-3xl bg-vk-azul p-5 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:gap-14 lg:p-12">
-        <div className="text-vk-creme">
+      <div className="mx-auto max-w-7xl rounded-3xl bg-vk-azul px-4 py-8 sm:px-8 sm:py-10 lg:p-12">
+        <div className="text-center text-vk-creme">
           <h2 id="kit-dia-e-noite-titulo" className="text-4xl font-medium md:text-5xl">Kit Dia + Noite</h2>
-          <p className="mt-4 max-w-md text-base leading-7 text-vk-creme/85 md:text-lg">
-            Control para a tarde e Night para a noite. Escolha 1, 2 ou 4 pares e economize em relação aos potes avulsos.
+          <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-vk-creme/85 md:text-lg">
+            Control para a tarde e Night para a noite. Cada kit reúne um pote de cada produto.
           </p>
-          <img
-            src={asset("/photos/momentos.webp")}
-            alt="Vivka Control e Vivka Night, os dois produtos do kit"
-            loading="lazy"
-            className="mt-6 aspect-[16/10] w-full rounded-2xl object-cover md:mt-8"
-          />
         </div>
-        <LojaCard
-          tag="Control + Night"
-          icon={SunMoon}
-          nome="Dia + Noite"
-          imagePrefix="kit"
-          meta="1 Control 90 g + 1 Night 150 g por par"
-          precos={KIT_PRECOS}
-          unidade={["par", "pares"]}
-          baseUnit={parseBRL(PRODUTOS.control.precos[0].total) + parseBRL(PRODUTOS.night.precos[0].total)}
-          featured
-        />
+        <div className="mt-9">
+          <PriceCards precos={KIT_OFERTAS_LOJA} produtoNome="Kit Vivka Dia + Noite" imagePrefix="kit" />
+        </div>
+        <p className="mt-5 text-center text-xs text-vk-creme/75">Checkout seguro pela Payt. Até 12x no cartão.</p>
       </div>
     </section>
   );
 }
 
-function LojaCard({
-  tag,
-  icon: Icon,
-  accent,
-  nome,
-  imagePrefix,
-  meta,
-  precos,
-  unidade,
-  baseUnit,
-  featured = false,
-}: {
-  tag: string;
-  icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
-  accent?: ProdutoId;
-  nome: string;
-  imagePrefix: string;
-  meta: string;
-  precos: Preco[];
-  unidade: [string, string];
-  /** Preço de referência por unidade (default: o da 1ª faixa) — no kit, a soma dos potes avulsos. */
-  baseUnit?: number;
-  featured?: boolean;
-}) {
+function LojaCard({ produto }: { produto: Produto }) {
+  const { id, nome, precos } = produto;
+  const Icon = MOMENTO_ICONS[produto.momento];
+  const { dot, mark } = THEME[id];
   const [i, setI] = useState(precos.length > 1 ? 1 : 0);
   const p = precos[i];
   const qty = Number(p.qtd);
-  const unit1 = baseUnit ?? parseBRL(precos[0].total);
+  const unit1 = parseBRL(precos[0].total);
   const totalNum = parseBRL(p.total);
   const original = unit1 * qty;
   const perUnit = totalNum / qty;
-  const label = `${p.qtd} ${qty === 1 ? unidade[0] : unidade[1]}`;
-  const dot = accent ? THEME[accent].dot : "bg-vk-dourado";
-  const mark = accent ? THEME[accent].mark : "mark-noite";
 
   return (
-    <div
-      className={`relative flex flex-col rounded-3xl border bg-white p-6 shadow-[var(--shadow-card)] md:p-7 ${
-        featured ? "border-vk-azul ring-4 ring-vk-dourado/35" : "border-vk-linha"
-      }`}
-    >
+    <div className="flex flex-col rounded-3xl border border-vk-linha bg-white p-6 shadow-[var(--shadow-card)] md:p-7">
       <Eyebrow rule={dot} className="text-vk-azul">
         <span className="flex items-center gap-2">
-          <Icon className="h-4 w-4" aria-hidden={true} /> {tag}
+          <Icon className="h-4 w-4" aria-hidden="true" /> {produto.momentoLabel}
         </span>
       </Eyebrow>
 
       <div className="mt-4 flex h-40 items-center justify-center">
         <img
-          src={asset(`/products/${imagePrefix}-${p.qtd}.webp`)}
-          alt={`Vivka ${nome} — ${label}`}
+          src={asset(`/products/${id}-${p.qtd}.webp`)}
+          alt={`Vivka ${nome} — ${p.label}`}
           className="max-h-40 w-auto max-w-full object-contain"
         />
       </div>
@@ -505,7 +460,7 @@ function LojaCard({
       <h3 className="mt-4 text-2xl font-medium text-vk-azul">
         Vivka <span className={mark}>{nome}</span>
       </h3>
-      <p className="label-caps mt-2 text-vk-tinta/55">{meta}</p>
+      <p className="label-caps mt-2 text-vk-tinta/55">{produto.apresentacao} · {produto.doses} · {produto.sabor}</p>
 
       <div className="mt-5">
         <span className="label-caps text-vk-azul">Escolha a quantidade</span>
@@ -520,7 +475,7 @@ function LojaCard({
                 i === idx ? "border-vk-azul bg-vk-azul text-vk-creme" : "border-vk-linha text-vk-tinta hover:bg-vk-areia"
               }`}
             >
-              {tier.qtd} {Number(tier.qtd) === 1 ? unidade[0] : unidade[1]}
+              {tier.label}
             </button>
           ))}
         </div>
@@ -534,12 +489,12 @@ function LojaCard({
         </div>
         <p className="mt-1 text-sm text-vk-tinta/70">ou {p.parcela}</p>
         <p className="mt-2 text-sm text-vk-tinta/60">
-          R$ {fmtBRL(perUnit)} por {unidade[0]}
+          R$ {fmtBRL(perUnit)} por pote
         </p>
         {p.economia && <p className="mt-1 text-xs font-semibold text-vk-azul">{p.economia}</p>}
       </div>
 
-      <a href={p.link} target="_blank" rel="noreferrer" className={`mt-auto ${featured ? BTN.primary : BTN.outline}`}>
+      <a href={p.link} target="_blank" rel="noreferrer" className={`mt-auto ${BTN.outline}`}>
         Comprar — R$ {p.total}
         <ArrowRight className="h-4 w-4" aria-hidden="true" />
       </a>
