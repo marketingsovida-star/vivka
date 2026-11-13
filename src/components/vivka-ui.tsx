@@ -176,11 +176,13 @@ export function PriceCards({
   precos,
   produtoNome,
   imagePrefix,
+  productImage,
   accent,
 }: {
   precos: Preco[];
   produtoNome: string;
   imagePrefix: string;
+  productImage?: { src: string; alt: string };
   accent?: ProdutoId;
 }) {
   const dot = accent ? THEME[accent].dot : "bg-vk-dourado";
@@ -203,10 +205,10 @@ export function PriceCards({
             )}
             <div className="mb-5 flex h-40 items-end justify-center">
               <img
-                src={asset(`/products/${imagePrefix}-${p.qtd}.webp`)}
-                alt={`${produtoNome} — ${p.label}`}
+                src={asset(productImage?.src ?? `/products/${imagePrefix}-${p.qtd}.webp`)}
+                alt={productImage?.alt ?? `${produtoNome} — ${p.label}`}
                 loading="lazy"
-                className="max-h-40 w-auto max-w-full object-contain"
+                className={`max-h-40 w-auto max-w-full object-contain ${productImage ? "rounded-xl" : ""}`}
               />
             </div>
             <p className="label-caps flex items-center gap-2 text-vk-azul">

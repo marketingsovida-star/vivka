@@ -1,4 +1,4 @@
-import { ArrowDown, Check, Clock, MessageCircle } from "lucide-react";
+import { ArrowDown, Check, Clock, MessageCircle, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Reveal } from "@/components/reveal";
 import { BTN, Eyebrow, Footer, MOMENTO_ICONS, PriceCards, ProductTopBar, THEME, TrustStrip } from "@/components/vivka-ui";
@@ -41,7 +41,7 @@ export function ProdutoPage({ produto, detalharAtivos = false }: { produto: Prod
       <ProductTopBar />
       <main>
         {/* VENDA — título/descritivo centralizado (padrão das páginas da Galli) */}
-        <section id={precoInicial ? "precos" : undefined} className="px-6 py-14 md:px-10 md:py-20">
+        <section id={precoInicial && !detalharAtivos ? "precos" : undefined} className="px-6 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-7xl">
             <Reveal immediate className="mx-auto max-w-2xl text-center">
               <Eyebrow center rule={t.dot} className="text-vk-azul">
@@ -69,19 +69,7 @@ export function ProdutoPage({ produto, detalharAtivos = false }: { produto: Prod
                 </div>
               )}
             </Reveal>
-            {precoInicial ? (
-              <>
-                <div className="mt-10">
-                  <PriceCards precos={produto.precos} produtoNome={`Vivka ${produto.nome}`} imagePrefix={produto.id} accent={produto.id} />
-                </div>
-                <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-vk-tinta/55">
-                  Compra segura pelo checkout da Payt. No cartão, parcele em até 12x.
-                </p>
-                <div className="mt-12">
-                  <TrustStrip />
-                </div>
-              </>
-            ) : (
+            {(detalharAtivos || !precoInicial) && (
               <div className="mx-auto mt-10 grid max-w-4xl overflow-hidden rounded-3xl border border-vk-linha bg-white shadow-[var(--shadow-card)] md:grid-cols-2">
                 <div className="grid place-items-center bg-[#f5f5f7]">
                   <img src={asset(produto.image)} alt={produto.imageAlt} className="h-72 w-full object-contain md:h-96" fetchPriority="high" />
@@ -94,14 +82,58 @@ export function ProdutoPage({ produto, detalharAtivos = false }: { produto: Prod
                       Conhecer os ativos <ArrowDown className="h-4 w-4" aria-hidden="true" />
                     </Link>
                   )}
-                  <Link to="/sac" className="mt-5 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-vk-azul underline decoration-vk-azul/40 underline-offset-4 hover:decoration-current">
-                    <MessageCircle className="h-4 w-4" aria-hidden="true" /> Consultar disponibilidade
+                  <Link to={precoInicial ? `${produto.slug}#precos` : "/sac"} className="mt-5 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-vk-azul underline decoration-vk-azul/40 underline-offset-4 hover:decoration-current">
+                    {precoInicial ? (
+                      <><ShoppingBag className="h-4 w-4" aria-hidden="true" /> Ver opções de compra</>
+                    ) : (
+                      <><MessageCircle className="h-4 w-4" aria-hidden="true" /> Consultar disponibilidade</>
+                    )}
                   </Link>
                 </div>
               </div>
             )}
+            {precoInicial && (
+              <>
+                <div id={detalharAtivos ? "precos" : undefined} className="mt-10 scroll-mt-20">
+                  <PriceCards
+                    precos={produto.precos}
+                    produtoNome={`Vivka ${produto.nome}`}
+                    imagePrefix={produto.id}
+                    productImage={produto.id === "energy-boost" ? { src: produto.image, alt: produto.imageAlt } : undefined}
+                    accent={produto.id}
+                  />
+                </div>
+                <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-vk-tinta/55">
+                  Compra segura pelo checkout da Payt. No cartão, parcele em até 12x.
+                </p>
+                <div className="mt-12">
+                  <TrustStrip />
+                </div>
+              </>
+            )}
           </div>
         </section>
+
+        {detalharAtivos && (
+          <section id="ativos" className="scroll-mt-16 border-t border-vk-linha px-6 py-16 md:px-10 md:py-24">
+            <div className="mx-auto max-w-7xl">
+              <h2 className="text-3xl font-medium text-vk-azul md:text-4xl">O que cada ativo faz no organismo</h2>
+              <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {produto.ativosDestaque.map((ativo) => (
+                  <li key={ativo.nome} className="flex flex-col rounded-2xl border border-vk-linha bg-white p-6">
+                    <h3 className={`text-xl ${t.text}`}>{ativo.nome}</h3>
+                    <p className="mt-2 flex-1 text-sm leading-6 text-vk-tinta/80">{ativo.beneficio}</p>
+                    {ativo.referencia && (
+                      <a href={ativo.referencia} target="_blank" rel="noreferrer" aria-label={`Referência científica sobre ${ativo.nome}`} className={`mt-3 self-start py-1 text-xs font-medium underline underline-offset-4 ${t.text}`}>
+                        Referência científica
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
 
         {/* MODO DE USO + COMPOSIÇÃO */}
         <section className="border-t border-vk-linha bg-vk-areia px-6 py-16 md:px-10 md:py-24">
@@ -162,26 +194,6 @@ export function ProdutoPage({ produto, detalharAtivos = false }: { produto: Prod
             </Reveal>
           </div>
         </section>
-        {detalharAtivos && (
-          <section id="ativos" className="scroll-mt-16 border-t border-vk-linha px-6 py-16 md:px-10 md:py-24">
-            <div className="mx-auto max-w-7xl">
-              <h2 className="text-3xl font-medium text-vk-azul md:text-4xl">O que cada ativo faz no organismo</h2>
-              <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {produto.ativosDestaque.map((ativo) => (
-                  <li key={ativo.nome} className="flex flex-col rounded-2xl border border-vk-linha bg-white p-6">
-                    <h3 className={`text-xl ${t.text}`}>{ativo.nome}</h3>
-                    <p className="mt-2 flex-1 text-sm leading-6 text-vk-tinta/80">{ativo.beneficio}</p>
-                    {ativo.referencia && (
-                      <a href={ativo.referencia} target="_blank" rel="noreferrer" aria-label={`Referência científica sobre ${ativo.nome}`} className={`mt-3 self-start py-1 text-xs font-medium underline underline-offset-4 ${t.text}`}>
-                        Referência científica
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-        )}
       </main>
       <Footer />
     </div>

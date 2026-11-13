@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Candy, Check, MoonStar, Plus, ShieldCheck, SunMoon, Truck } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { BTN, Eyebrow, Footer, HeaderRow, MOMENTO_ICONS, PharmaSection, SiteHeader, THEME } from "@/components/vivka-ui";
-import { PRODUTOS, KIT_PRECOS, asset, type Preco, type Produto } from "@/data/produtos";
+import { PRODUTOS, KIT_PRECOS, asset, type Preco, type Produto, type ProdutoId } from "@/data/produtos";
 import { useHead } from "@/lib/head";
 
 const DESC =
@@ -323,13 +323,14 @@ function VitrineCard({ produto }: { produto: Produto }) {
   const t = THEME[produto.id];
   const Icon = MOMENTO_ICONS[produto.momento];
   const p = produto.precos[0];
+  const useProductImage = produto.id === "energy-boost" || !p;
   return (
     <Reveal className="flex flex-col items-center gap-6 rounded-3xl border border-vk-linha bg-white p-6 text-center shadow-[var(--shadow-card)] sm:flex-row sm:text-left md:p-8">
       <img
-        src={asset(p ? `/products/${produto.id}-1.webp` : produto.image)}
+        src={asset(useProductImage ? produto.image : `/products/${produto.id}-1.webp`)}
         alt={produto.imageAlt}
         loading="lazy"
-        className={`h-36 w-auto shrink-0 object-contain ${p ? "" : "rounded-xl"}`}
+        className={`h-36 w-auto shrink-0 object-contain ${useProductImage ? "rounded-xl" : ""}`}
       />
       <div className="flex-1">
         <Eyebrow rule={t.dot} className="justify-center text-vk-azul sm:justify-start">
@@ -372,6 +373,7 @@ function VitrineCard({ produto }: { produto: Produto }) {
 
 /* ---------- COMPRAR (seletor de quantidade) ---------- */
 function Comprar() {
+  const energyBoost = PRODUTOS["energy-boost"];
   return (
     <section id="comprar" className="scroll-mt-20 border-y border-vk-linha bg-vk-areia px-6 py-18 md:px-10 md:py-24">
       <div className="mx-auto max-w-7xl">
@@ -381,7 +383,7 @@ function Comprar() {
           </Eyebrow>
           <h2 className="mt-3 text-4xl font-medium text-vk-azul md:text-5xl">Quanto mais, mais em conta.</h2>
         </Reveal>
-        <div className="mt-12 grid items-start gap-6 lg:grid-cols-3">
+        <div className="mt-12 grid items-start gap-6 md:grid-cols-2 xl:grid-cols-4">
           <LojaCard
             tag={PRODUTOS.control.momentoLabel}
             icon={Candy}
@@ -414,6 +416,17 @@ function Comprar() {
             precos={PRODUTOS.night.precos}
             unidade={["pote", "potes"]}
           />
+          <LojaCard
+            tag={energyBoost.momentoLabel}
+            icon={MOMENTO_ICONS[energyBoost.momento]}
+            accent={energyBoost.id}
+            nome={energyBoost.nome}
+            imagePrefix={energyBoost.id}
+            productImage={{ src: energyBoost.image, alt: energyBoost.imageAlt }}
+            meta={`${energyBoost.apresentacao} · ${energyBoost.doses} · ${energyBoost.sabor}`}
+            precos={energyBoost.precos}
+            unidade={["pote", "potes"]}
+          />
         </div>
 
         <div className="mx-auto mt-10 flex max-w-2xl flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-vk-tinta/60">
@@ -439,6 +452,7 @@ function LojaCard({
   nome,
   sub,
   imagePrefix,
+  productImage,
   meta,
   precos,
   unidade,
@@ -447,10 +461,11 @@ function LojaCard({
 }: {
   tag: string;
   icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
-  accent?: "control" | "night";
+  accent?: ProdutoId;
   nome: string;
   sub?: string;
   imagePrefix: string;
+  productImage?: { src: string; alt: string };
   meta: string;
   precos: Preco[];
   unidade: [string, string];
@@ -487,7 +502,11 @@ function LojaCard({
       </Eyebrow>
 
       <div className="mt-4 flex h-40 items-center justify-center">
-        <img src={asset(`/products/${imagePrefix}-${p.qtd}.webp`)} alt={`Vivka ${nome} — ${label}`} className="max-h-40 w-auto max-w-full object-contain" />
+        <img
+          src={asset(productImage?.src ?? `/products/${imagePrefix}-${p.qtd}.webp`)}
+          alt={productImage?.alt ?? `Vivka ${nome} — ${label}`}
+          className={`max-h-40 w-auto max-w-full object-contain ${productImage ? "rounded-xl" : ""}`}
+        />
       </div>
 
       <h3 className="mt-4 text-2xl font-medium text-vk-azul">
